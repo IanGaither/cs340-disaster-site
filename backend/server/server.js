@@ -9,7 +9,7 @@ app.set('port', process.argv[2]);
 
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '../../build', 'index.html'))
+    res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'))
 });
 
 app.listen(app.get('port'), function () {
