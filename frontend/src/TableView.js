@@ -36,7 +36,7 @@ class TableView extends React.Component {
     render() {
         return (
             <Table>
-                <HeaderRow headers={this.props.headers}/>
+                <HeaderRow headers={this.props.headers} buttonRowWidth="150"/>
                 <tbody>
                 {this.state.rowValues.map((rowValues) =>
                     <Row {...rowValues} key={rowValues.id} tableHandleChange={this.tableHandleChange}
