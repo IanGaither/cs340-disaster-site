@@ -45,6 +45,7 @@ class TableView extends React.Component {
 
     render() {
         return (
+            <div className="container">
             <Table>
                 <HeaderRow headers={this.props.headers} buttonRowWidth="150"/>
                 <tbody>
@@ -53,7 +54,9 @@ class TableView extends React.Component {
                     fieldTypes={this.props.fieldTypes} fieldNames={this.props.fieldNames} fieldAttributes={this.props.fieldAttributes}/>
                 )}
                 </tbody>
-            </Table>)
+            </Table>
+            </div>)
+
     }
 
 }
