@@ -6,21 +6,18 @@ import Table from "react-bootstrap/Table"
 const rowValues = [
     {
         id: 1,
-        editable: true,
         mode: "inactive",
         name: "Seattle",
         state: 45,
         population: 750000
     },
     {   id: 5,
-        editable: false,
         mode: "active",
         name: "Portland",
         state: 44,
         population: 650000
     },
     {   id: 78,
-        editable: false,
         mode: "edit",
         name: "Spokane",
         state: 45,
