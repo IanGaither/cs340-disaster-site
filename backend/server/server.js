@@ -8,7 +8,7 @@ app.use(express.static(path.join(__dirname, '../../frontend/build')));
 app.set('port', process.argv[2]);
 
 
-app.get('/', function(req, res) {
+app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'))
 });
 
