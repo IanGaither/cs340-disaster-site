@@ -45,8 +45,6 @@ class AppContainer extends React.Component {
             <BrowserRouter>
                 <div className="App">
                     <NavBarComponent/>
-                    <TableView {...tableProps}/>
-                </div>
                 <Switch>
                     <Route path="/disasters">
                         <Disasters/>
@@ -64,6 +62,7 @@ class AppContainer extends React.Component {
                         <Hurricanes/>
                     </Route>
                 </Switch>
+                </div>
             </BrowserRouter>
         );
     }

@@ -28,17 +28,19 @@ const rowValues = [
 class TableView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
+        //TODO: Restore this after submission
+        /*this.state = {
             rowValues: rowValues
-        }
+        }*/
     }
 
     tableHandleChange = (change) => {
-        this.setState(prevState => ({
+        //TODO: Restore this after submission
+        /*this.setState(prevState => ({
             rowValues: prevState.rowValues.map(
                 el => el.id === change.id? { ...el, [change.field]: change.value}: el
             )
-        }))};
+        }))*/};
 
     render() {
         return (
@@ -46,7 +48,7 @@ class TableView extends React.Component {
             <Table>
                 <HeaderRow headers={this.props.headers} buttonRowWidth="150"/>
                 <tbody>
-                {this.state.rowValues.map((rowValues) =>
+                {this.props.rowValues.map((rowValues) =>
                     <Row {...rowValues} key={rowValues.id} tableHandleChange={this.tableHandleChange}
                     fieldTypes={this.props.fieldTypes} fieldNames={this.props.fieldNames} fieldAttributes={this.props.fieldAttributes}/>
                 )}
@@ -59,3 +61,10 @@ class TableView extends React.Component {
 }
 
 export default TableView;
+
+/* render body with rowValues as state instead of prop
+{this.state.rowValues.map((rowValues) =>
+                    <Row {...rowValues} key={rowValues.id} tableHandleChange={this.tableHandleChange}
+                    fieldTypes={this.props.fieldTypes} fieldNames={this.props.fieldNames} fieldAttributes={this.props.fieldAttributes}/>
+                )}
+*/
