@@ -1,7 +1,10 @@
 import React from "react";
 import NavBar from "react-bootstrap/Navbar";
+import NavbarBrand from "react-bootstrap/NavbarBrand"
+import NavLink from "react-bootstrap/NavLink"
 import Nav from "react-bootstrap/Nav";
-import NavItem from "react-bootstrap/NavItem";
+// import NavItem from "react-bootstrap/NavItem";
+import Container from "react-bootstrap/Container"
 import { LinkContainer } from "react-router-bootstrap";
 
 class NavBarComponent extends React.Component {
@@ -16,23 +19,26 @@ class NavBarComponent extends React.Component {
         return (
             <div className="nav-bar">
                 <NavBar bg="light">
+                    <Container>
+                        <NavbarBrand>Disasters Database</NavbarBrand>
                     <Nav>
                         <LinkContainer to="/disasters">
-                            <NavItem>Disasters</NavItem>
+                            <NavLink>Disasters</NavLink>
                         </LinkContainer>
                         <LinkContainer to="/communities">
-                            <NavItem>Communities</NavItem>
+                            <NavLink>Communities</NavLink>
                         </LinkContainer>
                         <LinkContainer to="/impacts">
-                            <NavItem>Impacts</NavItem>
+                            <NavLink>Impacts</NavLink>
                         </LinkContainer>
                         <LinkContainer to="/earthquakes">
-                            <NavItem>Earthquakes</NavItem>
+                            <NavLink>Earthquakes</NavLink>
                         </LinkContainer>
                         <LinkContainer to="/hurricanes">
-                            <NavItem>Hurricanes</NavItem>
+                            <NavLink>Hurricanes</NavLink>
                         </LinkContainer>
                     </Nav>
+                    </Container>
                 </NavBar>
             </div>)
 
