@@ -3,7 +3,7 @@ import React from "react";
 import TableView from "../TableView";
 
 const tableProps = {
-    fieldTypes: ["textCell", "textCell"],
+    fieldTypes: ["textCell"],
     headers: ["Name"],
     fieldNames: ["name"],
     fieldAttributes: [

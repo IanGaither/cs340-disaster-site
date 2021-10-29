@@ -13,6 +13,12 @@ const components = {
 class Row extends React.Component {
     constructor (props) {
         super(props);
+
+        this.handleOnClick = this.handleOnClick.bind(this);
+        this.handleEditClick = this.handleEditClick.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleSaveClick = this.handleSaveClick.bind(this);
+        this.handleCancelClick = this.handleCancelClick.bind(this);
     }
 
     rowHandleChange = (event) => {
@@ -36,14 +42,14 @@ class Row extends React.Component {
                 break;
             case "active":
                 buttons = <td>
-                    <Badge bg="primary">Edit</Badge>
-                    <Badge bg="danger" className="mx-1">Delete</Badge>
+                    <Badge bg="primary" onClick={this.handleEditClick}>Edit</Badge>
+                    <Badge bg="danger" className="mx-1" onClick={this.handleDeleteClick}>Delete</Badge>
                 </td>;
                 break;
             case "edit":
                 buttons = <td>
-                    <Badge bg="primary">Save</Badge>
-                    <Badge bg="dark" className="mx-1">Cancel</Badge>
+                    <Badge bg="primary" onClick={this.handleSaveClick}>Save</Badge>
+                    <Badge bg="dark" className="mx-1" onClick={this.handleCancelClick}>Cancel</Badge>
                 </td>
         }
         let cells = [];
@@ -55,13 +61,41 @@ class Row extends React.Component {
             )
         }
         return (
-            <tr>
+            <tr onClick={this.handleOnClick}>
                 <td hidden>
                     {this.props.id}
                 </td>
                 {cells}
                 {buttons}
             </tr>)
+    }
+
+    handleOnClick(event)
+    {
+        if(this.props.mode === "inactive")
+        {
+            this.props.handleRowModeUpdate(this.props.rowIndex, "active")
+        }
+    }
+
+    handleEditClick(event)
+    {
+        this.props.handleRowModeUpdate(this.props.rowIndex, "edit");
+    }
+
+    handleDeleteClick(event)
+    {
+        this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
+    }
+
+    handleSaveClick(event)
+    {
+        this.props.handleRowModeUpdate(this.props.rowIndex, "active");
+    }
+
+    handleCancelClick(event)
+    {
+        this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
     }
 }
 

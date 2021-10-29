@@ -40,13 +40,13 @@ const rowValues = [
         population: 750000
     },
     {   id: 5,
-        mode: "active",
+        mode: "inactive",
         name: "Portland",
         state: 44,
         population: 650000
     },
     {   id: 78,
-        mode: "edit",
+        mode: "inactive",
         name: "Spokane",
         state: 45,
         population: 250000
