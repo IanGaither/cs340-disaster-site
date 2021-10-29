@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import NavBarComponent from "./NavBarComponent";
-import TableView from "./TableView"
+//import TableView from "./TableView"
 import Disasters from "./components/Disasters";
 import Communities from "./components/Communities";
 import Earthquakes from "./components/Earthquakes";
 import Impacts from "./components/Impacts";
 import Hurricanes from "./components/Hurricanes";
 
-const tableProps = {
+/*const tableProps = {
     fieldTypes: ["textCell", "staticSelect", "numberCell"],
     headers: ["Name", "State", "Population"],
     fieldNames: ["name", "state", "population"],
@@ -36,7 +36,7 @@ const tableProps = {
             ]
         },
         {}]
-};
+};*/
 
 class AppContainer extends React.Component {
 
