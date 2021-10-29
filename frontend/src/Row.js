@@ -3,6 +3,7 @@ import TextCell from "./TextCell";
 import NumberCell from "./NumberCell"
 import StaticSelect from "./StaticSelectCell"
 import Badge from "react-bootstrap/Badge"
+import { v4 as uuidv4 } from "uuid";
 
 const components = {
     textCell: TextCell,
@@ -56,7 +57,7 @@ class Row extends React.Component {
         for(let i = 0; i < this.props.fieldTypes.length; i++) {
             const CellType = components[this.props.fieldTypes[i]];
             cells.push(
-                <CellType {...this.props.fieldAttributes[i]} onChange={this.rowHandleChange} editable={editable}
+                <CellType {...this.props.fieldAttributes[i]} key={i} onChange={this.rowHandleChange} editable={editable}
                           name={this.props.fieldNames[i]} value={this.props[this.props.fieldNames[i]]}/>
             )
         }

@@ -18,7 +18,7 @@ const rowValues = [
         name: "Hurricane Harvey",
     },
     {
-        id: 1,
+        id: 5,
         mode: "inactive",
         name: "Great Alaska Earthquake",
     }

@@ -2,6 +2,7 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import { v4 as uuidv4 } from "uuid";
 
+import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
 
@@ -31,21 +32,34 @@ class TableView extends React.Component {
     constructor(props) {
         super(props);
 
+
+        let addRow = JSON.parse(JSON.stringify(this.props.rowValues[0]));
+        addRow.id += 1;
+        this.state = {
+            addValues: addRow,
+            rowValues: this.props.rowValues,
+            activeRow: -1
+        }
         //bind to instance
         this.handleRowModeUpdate = this.handleRowModeUpdate.bind(this);
     }
 
-    state = {
-        rowValues: this.props.rowValues,
-        activeRow: -1
-    };
-
     tableHandleChange = (change) => {
-        this.setState(prevState => ({
-            rowValues: prevState.rowValues.map(
-                el => el.id === change.id? { ...el, [change.field]: change.value}: el
-            )
-        }))};
+        if(change.id === this.state.addValues.id)
+        {
+            let newAddValueRow = JSON.parse(JSON.stringify(this.state.addValues));
+            newAddValueRow[change.field] = change.value;
+            this.setState({addValues: newAddValueRow});
+        }
+        else
+        {
+            this.setState(prevState => ({
+                rowValues: prevState.rowValues.map(
+                    el => el.id === change.id? { ...el, [change.field]: change.value}: el
+                )
+            }))
+        }
+    }
 
     render() {
         return (
@@ -55,7 +69,7 @@ class TableView extends React.Component {
                 <tbody>
                 {this.state.rowValues.map((rowValues, i) =>
                     <Row {...rowValues} 
-                        key={uuidv4()} 
+                        key={rowValues.id} 
                         rowIndex={i} 
                         tableHandleChange={this.tableHandleChange}
                         handleRowModeUpdate={this.handleRowModeUpdate}
@@ -63,6 +77,11 @@ class TableView extends React.Component {
                         fieldNames={this.props.fieldNames} 
                         fieldAttributes={this.props.fieldAttributes}/>
                 )}
+                    <AddRow tableHandleChange={this.tableHandleChange}
+                        {...this.state.addValues}
+                        fieldTypes={this.props.fieldTypes} 
+                        fieldNames={this.props.fieldNames} 
+                        fieldAttributes={this.props.fieldAttributes}/>
                 </tbody>
             </Table>
             </div>)
