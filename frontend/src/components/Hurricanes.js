@@ -4,22 +4,54 @@ import TableView from "../TableView";
 import Card from "react-bootstrap/Card";
 
 const tableProps = {
-    fieldTypes: ["textCell", "textCell", "textCell", "numberCell", "numberCell"],
+    fieldTypes: ["staticSelect", "textCell", "textCell", "numberCell", "numberCell"],
     headers: ["Name", "Start Date", "End Date", "Category", "Max Wind Speed"],
     fieldNames: ["name", "startDate", "endDate", "saffirSimpsonCategory", "maxWindSpeed"],
     fieldAttributes: [
-        {}]
+        {
+            options: [
+                {
+                    value: -1,
+                    label: ""
+                },
+                {
+                    value: 1,
+                    label: "Hurricane Harvey",
+                },
+                {
+                    value: 2,
+                    label: "Great Alaska Earthquake",
+                },
+                {
+                    value: 3,
+                    label: "Hurricane Katrina",
+                },
+                {
+                    value: 4,
+                    label: "Northridge Earthquake"
+                }
+            ]
+        }]
 };
 
 const rowValues = [
     {
         id: 1,
         mode: "inactive",
-        name: "Harvey",
-        startDate: "8-17-2017",
-        endDate: "9-2-2017",
+        name: 1,
+        startDate: "08-17-2017",
+        endDate: "09-2-2017",
         saffirSimpsonCategory: 4,
         maxWindSpeed: 134
+    },
+    {
+        id: 2,
+        mode: "inactive",
+        name: 3,
+        startDate: "08-23-2005",
+        endDate: "08-31-2005",
+        saffirSimpsonCategory: 5,
+        maxWindSpeed: 175
     }
 ];
 

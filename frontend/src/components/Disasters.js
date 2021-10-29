@@ -3,11 +3,11 @@ import Card from "react-bootstrap/Card"
 import TableView from "../TableView";
 
 const tableProps = {
+    // fieldTypes: ["textCell", "textCell"],
     fieldTypes: ["textCell", "textCell"],
     headers: ["Name"],
     fieldNames: ["name"],
     fieldAttributes: [
-        {},
         {}]
 };
 
@@ -18,9 +18,19 @@ const rowValues = [
         name: "Hurricane Harvey",
     },
     {
-        id: 1,
+        id: 2,
         mode: "inactive",
         name: "Great Alaska Earthquake",
+    },
+    {
+        id: 3,
+        mode: "inactive",
+        name: "Hurricane Katrina"
+    },
+    {
+        id: 4,
+        mode: "inactive",
+        name: "Northridge Earthquake"
     }
 ];
 

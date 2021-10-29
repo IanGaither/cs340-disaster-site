@@ -4,23 +4,69 @@ import TableView from "../TableView";
 import Card from "react-bootstrap/Card";
 
 const tableProps = {
-    fieldTypes: ["textCell", "textCell", "numberCell", "numberCell", "numberCell", "numberCell"],
+    fieldTypes: ["staticSelect", "staticSelect", "numberCell", "numberCell", "numberCell", "numberCell"],
     headers: ["Community", "Disaster", "Fatalities", "Injuries", "Property Damage", "Relief Cost"],
     fieldNames: ["community", "disaster", "fatalities", "injuries", "propertyDamage", "reliefCost"],
     fieldAttributes: [
-        {}]
+        {
+            options: [
+                {
+                    value: 1,
+                    label: "Anchorage"
+                },
+                {
+                    value: 5,
+                    label: "Houston"
+                },
+                {
+                    value: 78,
+                    label: "New Orleans"
+                },
+            ]
+        },
+        {
+            options: [
+                {
+                    value: 1,
+                    label: "Hurricane Harvey",
+                },
+                {
+                    value: 2,
+                    label: "Great Alaska Earthquake",
+                },
+                {
+                    value: 3,
+                    label: "Hurricane Katrina",
+                },
+                {
+                    value: 4,
+                    label: "Northridge Earthquake"
+                }
+            ]
+        },
+        {}, {}, {}, {}]
 };
 
 const rowValues = [
     {
         id: 1,
         mode: "inactive",
-        community: "Austin, Texas",
-        disaster: "Hurricane Harvey",
+        community: 5,
+        disaster: 1,
         fatalities: 68,
         injuries: 300,
         propertyDamage: 125000000000,
         reliefCost: 30000000
+    },
+    {
+        id: 2,
+        mode: "inactive",
+        community: 1,
+        disaster: 2,
+        fatalities: 131,
+        injuries: 600,
+        propertyDamage: 311000000,
+        reliefCost: 98000000
     }
 ];
 

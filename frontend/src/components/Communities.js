@@ -20,8 +20,16 @@ const tableProps = {
                     label: "Alaska"
                 },
                 {
-                    value: 44,
+                    value: 15,
+                    label: "Louisiana"
+                },
+                {
+                    value: 20,
                     label: "Oregon"
+                },
+                {
+                    value: 23,
+                    label: "Texas"
                 },
                 {
                     value: 45,
@@ -36,21 +44,21 @@ const rowValues = [
     {
         id: 1,
         mode: "inactive",
-        name: "Seattle",
-        state: 45,
-        population: 750000
+        name: "Anchorage",
+        state: 2,
+        population: 293531
     },
     {   id: 5,
-        mode: "active",
-        name: "Portland",
-        state: 44,
-        population: 650000
+        mode: "inactive",
+        name: "Houston",
+        state: 23,
+        population: 2304580
     },
     {   id: 78,
-        mode: "edit",
-        name: "Spokane",
-        state: 45,
-        population: 250000
+        mode: "inactive",
+        name: "New Orleans",
+        state: 15,
+        population: 383997
     }
 ];
 
