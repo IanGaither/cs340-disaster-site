@@ -331,7 +331,7 @@ const ImpactsTable =
             ]
         },
         {
-            columnName: "Disaster",
+            columnName: "DisasterEvent",
             columnType: "static",
             columnConstraints:
             [
