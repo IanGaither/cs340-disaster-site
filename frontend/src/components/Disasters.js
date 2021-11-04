@@ -8,7 +8,7 @@ class Disasters extends React.Component {
         return (
             <div className="DisasterEvents">
                 <div className="container">
-                    <h1>Disaster Events</h1>
+                    <h1>DisasterEvents</h1>
                     <h6>This page is for viewing, editing, adding, and deleting rows to the DisasterEvents Table.</h6>
                     <Instructions />
                 </div>
