@@ -214,11 +214,11 @@ const HurricanesTable =
         },
         {
             columnName: "Start Date",
-            columnType: "text"
+            columnType: "date"
         },
         {
             columnName: "End Date",
-            columnType: "text"
+            columnType: "date"
         },
         {
             columnName: "Category",
@@ -236,8 +236,8 @@ const HurricanesTable =
             columns:
             [
                 "Hurricane Harvey",
-                "08-17-2017",
-                "09-2-2017",
+                "2017-08-17",
+                "2017-09-02",
                 4,
                 134
             ]
@@ -247,8 +247,8 @@ const HurricanesTable =
             columns:
             [
                 "Hurricane Katrina",
-                "08-23-2005",
-                "08-31-2005",
+                "2005-08-23",
+                "2005-08-31",
                 5,
                 175
             ]
