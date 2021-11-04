@@ -23,7 +23,7 @@ const CommunitiesTable =
             [
                 {
                     value: -1,
-                    label: "None"
+                    label: "Pick a state"
                 },
                 {
                     value: 1,
@@ -137,8 +137,31 @@ const EarthquakesTable =
     headerRow:
     [
         {
-            columnName: "Name",
-            columnType: "text"
+            columnName: "DisasterEvent",
+            columnType: "static",
+            columnConstraints:
+            [
+                {
+                    value: -1,
+                    label: "None"
+                },
+                {
+                    value: 1,
+                    label: "Hurricane Harvey"
+                },
+                {
+                    value: 2,
+                    label: "Great Alaska Earthquake"
+                },
+                {
+                    value: 3,
+                    label: "Hurricane Katrina"
+                },
+                {
+                    value: 4,
+                    label: "Northridge Earthquake"
+                }
+            ]
         },
         {
             columnName: "Date",
@@ -182,8 +205,8 @@ const EarthquakesTable =
             rowID: 1,
             columns:
             [
-                "Great Alaska Earthquake",
-                "1964-03-27",
+                2,
+                "3-27-1964",
                 9.2,
                 "60.908°N 147.339°W",
                 1
@@ -193,8 +216,8 @@ const EarthquakesTable =
             rowID: 2,
             columns:
             [
-                "Northridge Earthquake",
-                "1994-01-17",
+                4,
+                "01-17-1994",
                 6.7,
                 "34.213°N 118.537°W",
                 2
@@ -209,8 +232,31 @@ const HurricanesTable =
     headerRow:
     [
         {
-            columnName: "Name",
-            columnType: "text"
+            columnName: "DisasterEvent",
+            columnType: "static",
+            columnConstraints:
+                [
+                    {
+                        value: -1,
+                        label: "None"
+                    },
+                    {
+                        value: 1,
+                        label: "Hurricane Harvey"
+                    },
+                    {
+                        value: 2,
+                        label: "Great Alaska Earthquake"
+                    },
+                    {
+                        value: 3,
+                        label: "Hurricane Katrina"
+                    },
+                    {
+                        value: 4,
+                        label: "Northridge Earthquake"
+                    }
+                ]
         },
         {
             columnName: "Start Date",
@@ -235,9 +281,9 @@ const HurricanesTable =
             rowID: 1,
             columns:
             [
-                "Hurricane Harvey",
-                "2017-08-17",
-                "2017-09-02",
+                1,
+                "08-17-2017",
+                "09-2-2017",
                 4,
                 134
             ]
@@ -246,9 +292,9 @@ const HurricanesTable =
             rowID: 2,
             columns:
             [
-                "Hurricane Katrina",
-                "2005-08-23",
-                "2005-08-31",
+                3,
+                "08-23-2005",
+                "08-31-2005",
                 5,
                 175
             ]
