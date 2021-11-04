@@ -4,19 +4,6 @@ import NumberCell from "./NumberCell"
 import StaticSelect from "./StaticSelectCell"
 import Badge from "react-bootstrap/Badge"
 
-const components = {
-    textCell: TextCell,
-    numberCell: NumberCell,
-    staticSelect: StaticSelect
-};
-
-/*const CellType = 
-{
-    "text": TextCell,
-    "number": NumberCell,
-    "static": StaticSelect
-}*/
-
 class Row extends React.Component {
     constructor (props) {
         super(props);
@@ -99,7 +86,7 @@ class Row extends React.Component {
 
     rowHandleChange = (event) => {
         console.log("in rowHandleChange with");
-        console.log(event);
+        console.log(event.target);
         this.props.tableHandleChange(
             {
                 rowID: this.props.rowID,
@@ -147,12 +134,3 @@ class Row extends React.Component {
 }
 
 export default Row;
-
-/*        let cells = [];
-        for(let i = 0; i < this.props.fieldTypes.length; i++) {
-            const CellType = components[this.props.fieldTypes[i]];
-            cells.push(
-                <CellType {...this.props.fieldAttributes[i]} key={i} onChange={this.rowHandleChange} editable={editable}
-                          name={this.props.fieldNames[i]} value={this.props[this.props.fieldNames[i]]}/>
-            )
-        }*/ 

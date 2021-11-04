@@ -11,10 +11,14 @@ class TableComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {activeRow: -1};
+        this.state = {
+            activeRow: -1, 
+            addEditing: false
+        };
         //bind to instance
         this.handleRowModeUpdate = this.handleRowModeUpdate.bind(this);
         this.fetchTableData = this.fetchTableData.bind(this);
+        this.isEditingAdd = this.isEditingAdd.bind(this);
     }
 
     render() {
@@ -24,20 +28,27 @@ class TableComponent extends React.Component {
                 {this.state.headerRow &&
                 <HeaderRow headers={this.state.headerRow} buttonRowWidth="150"/>}
                 <tbody>
-                {this.state.dataRows &&
-                    this.state.dataRows.map((row, i) =>
-                        <Row 
-                            key={row.rowID}
-                            rowID={row.rowID}
-                            rowIndex={i} 
-                            mode={this.state.rowModes[i]} 
-                            headerRow={this.state.headerRow} 
-                            columns={row.columns}
-                            tableHandleChange={this.tableHandleChange}
-                            handleRowModeUpdate={this.handleRowModeUpdate}
-                        />
-                    )
-                }
+                    {this.state.dataRows &&
+                        this.state.dataRows.map((row, i) =>
+                            <Row 
+                                key={row.rowID}
+                                rowID={row.rowID}
+                                rowIndex={i} 
+                                mode={this.state.rowModes[i]} 
+                                headerRow={this.state.headerRow} 
+                                columns={row.columns}
+                                tableHandleChange={this.tableHandleChange}
+                                handleRowModeUpdate={this.handleRowModeUpdate}
+                                handleMouseEnter={this.handleMouseEnter}
+                                handleMouseLeave={this.handleMouseLeave}
+                            />
+                        )
+                    }
+                    {this.state.dataRows &&
+                    <AddRow 
+                        headerRow={this.state.headerRow} 
+                        editNotify={this.isEditingAdd}
+                    />}
                 </tbody>
             </Table>
             </div>)
@@ -57,7 +68,6 @@ class TableComponent extends React.Component {
         for(let row in rawData.dataRows)
         {
             rowModes.push("inactive");
-            //rawData.dataRows[row].mode = "inactive";
         }
         this.setState({
             title: rawData.title,
@@ -68,50 +78,27 @@ class TableComponent extends React.Component {
     }
 
     tableHandleChange = (change) => {
-        /*if(change.id === this.state.addValues.id)
+        let newRows = JSON.parse(JSON.stringify(this.state.dataRows));
+        //find column
+        let index = 0;
+        for(let column in this.state.headerRow)
         {
-            let newAddValueRow = JSON.parse(JSON.stringify(this.state.addValues));
-            newAddValueRow[change.field] = change.value;
-            this.setState({addValues: newAddValueRow});
+            if(change.field === this.state.headerRow[column].columnName)
+            {
+                index = column;
+                break;
+            }
         }
-        else
-        {*/
-            let newRows = JSON.parse(JSON.stringify(this.state.dataRows));
-            //find column
-            let index = 0;
-            for(let column in this.state.headerRow)
+        for(let row in newRows)
+        {
+            if(newRows[row].rowID === change.rowID)
             {
-                if(change.field === this.state.headerRow[column].columnName)
-                {
-                    console.log(index);
-                    index = column;
-                    break;
-                }
+                newRows[row].columns[index] = change.value;
+                break;
             }
-            for(let row in newRows)
-            {
-                if(newRows[row].rowID === change.rowID)
-                {
-                    newRows[row].columns[index] = change.value;
-                    break;
-                }
-            }
+        }
             
-            this.setState({dataRows: newRows});
-
-            /*console.log(change);
-            console.log(this.state.dataRows)
-            this.setState(prevState => {
-                console.log("HI");
-                
-
-                return {
-                ...prevState,
-                dataRows: prevState.dataRows.map(
-                    el => el.rowID === change.rowID? { ...el, [index]: change.value}: el
-                )
-            }})
-        //}*/
+        this.setState({dataRows: newRows});
     }
 
     handleRowModeUpdate(rowIndex, newMode)
@@ -131,6 +118,23 @@ class TableComponent extends React.Component {
         else
             this.setState({rowModes: newRowModes, activeRow: rowIndex});
         
+    }
+
+    handleMouseEnter = (rowIndex) => {
+        if(!this.state.addEditing && (this.state.activeRow === -1 || this.state.rowModes[this.state.activeRow] === "active")) {
+            this.handleRowModeUpdate(rowIndex, "active");
+        }
+    };
+
+    handleMouseLeave = (rowIndex) => {
+        if(this.state.rowModes[rowIndex] === "active") {
+            this.handleRowModeUpdate(rowIndex, "inactive");
+        }
+    }
+
+    isEditingAdd(editingStatus)
+    {
+        this.setState({addEditing: editingStatus})
     }
 }
 

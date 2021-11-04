@@ -3,65 +3,6 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import TableComponent from "../TableComponent";
 
-/*const tableProps = {
-    fieldTypes: ["textCell", "staticSelect", "numberCell"],
-    headers: ["Name", "State", "Population"],
-    fieldNames: ["name", "state", "population"],
-    fieldAttributes: [
-        {},
-        {
-            options: [
-                {
-                    value: 1,
-                    label: "Alabama"
-                },
-                {
-                    value: 2,
-                    label: "Alaska"
-                },
-                {
-                    value: 15,
-                    label: "Louisiana"
-                },
-                {
-                    value: 20,
-                    label: "Oregon"
-                },
-                {
-                    value: 23,
-                    label: "Texas"
-                },
-                {
-                    value: 45,
-                    label: "Washington"
-                }
-            ]
-        },
-        {}]
-};
-
-const rowValues = [
-    {
-        id: 1,
-        mode: "inactive",
-        name: "Anchorage",
-        state: 2,
-        population: 293531
-    },
-    {   id: 5,
-        mode: "inactive",
-        name: "Houston",
-        state: 23,
-        population: 2304580
-    },
-    {   id: 78,
-        mode: "inactive",
-        name: "New Orleans",
-        state: 15,
-        population: 383997
-    }
-];*/
-
 class Communities extends React.Component {
 
     render() {

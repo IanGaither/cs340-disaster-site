@@ -1,7 +1,7 @@
 import React from "react";
-
-import TableView from "../TableView";
 import Card from "react-bootstrap/Card";
+
+import TableComponent from "../TableComponent";
 
 const tableProps = {
     fieldTypes: ["staticSelect", "staticSelect", "numberCell", "numberCell", "numberCell", "numberCell"],
@@ -90,7 +90,7 @@ class Impacts extends React.Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <TableView {...tableProps} rowValues={rowValues} />
+                <TableComponent source={"impacts"} />
             </div>
         );
     }

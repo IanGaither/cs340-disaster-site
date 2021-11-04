@@ -1,37 +1,6 @@
 import React from "react";
 import Card from "react-bootstrap/Card"
-import TableView from "../TableView";
-
-const tableProps = {
-    fieldTypes: ["textCell"],
-    headers: ["Name"],
-    fieldNames: ["name"],
-    fieldAttributes: [
-        {}]
-};
-
-const rowValues = [
-    {
-        id: 1,
-        mode: "inactive",
-        name: "Hurricane Harvey",
-    },
-    {
-        id: 2,
-        mode: "inactive",
-        name: "Great Alaska Earthquake",
-    },
-    {
-        id: 3,
-        mode: "inactive",
-        name: "Hurricane Katrina"
-    },
-    {
-        id: 4,
-        mode: "inactive",
-        name: "Northridge Earthquake"
-    }
-];
+import TableComponent from "../TableComponent";
 
 class Disasters extends React.Component {
 
@@ -39,7 +8,7 @@ class Disasters extends React.Component {
         return (
             <div className="Disasters">
                 <div className="container">
-                    <h1>Disasters</h1>
+                    <h1>Disaster Events</h1>
                     <h6>This page is for viewing, editing, adding, and deleting rows to the Disasters Table.</h6>
                     <Card className="mb-4">
                         <Card.Body className="Body">
@@ -51,7 +20,7 @@ class Disasters extends React.Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <TableView {...tableProps} rowValues={rowValues} />
+                <TableComponent source={"disasters"} />
             </div>
         );
     }

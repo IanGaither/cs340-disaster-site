@@ -1,80 +1,7 @@
 import React from "react";
-
-import TableView from "../TableView";
 import Card from "react-bootstrap/Card";
 
-const tableProps = {
-    fieldTypes: ["staticSelect", "textCell", "numberCell", "textCell", "staticSelect"],
-    headers: ["Name", "Date", "Magnitude", "Epicenter", "Fault Type"],
-    fieldNames: ["name", "date", "richterMagnitude", "epicenter", "faultType"],
-    fieldAttributes: [
-        {
-            options: [
-                {
-                    value: -1,
-                    label: ""
-                },
-                {
-                    value: 1,
-                    label: "Hurricane Harvey",
-                },
-                {
-                    value: 2,
-                    label: "Great Alaska Earthquake",
-                },
-                {
-                    value: 3,
-                    label: "Hurricane Katrina",
-                },
-                {
-                    value: 4,
-                    label: "Northridge Earthquake"
-                }
-            ]
-        },
-        {}, {}, {},
-        {
-            options: [
-                {
-                    value: 1,
-                    label: "Normal"
-                },
-                {
-                    value: 2,
-                    label: "Thrust"
-                },
-                {
-                    value: 3,
-                    label: "Strike-Slip"
-                },
-                {
-                    value: 4,
-                    label: "Oblique"
-                },
-            ]
-        }]
-};
-
-const rowValues = [
-    {
-        id: 1,
-        mode: "inactive",
-        name: 2,
-        date: "3-27-1964",
-        richterMagnitude: 9.2,
-        epicenter: "60.908°N 147.339°W",
-        faultType: 1
-    },
-    {
-        id: 2,
-        mode: "inactive",
-        name: 4,
-        date: "01-17-1994",
-        richterMagnitude: 6.7,
-        epicenter: "34.213°N 118.537°W",
-        faultType: 2
-    }
-];
+import TableComponent from "../TableComponent";
 
 class Earthquakes extends React.Component {
 
@@ -94,7 +21,7 @@ class Earthquakes extends React.Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <TableView {...tableProps} rowValues={rowValues} />
+                <TableComponent source={"earthquakes"} />
             </div>
         );
     }

@@ -1,23 +1,36 @@
 import React from "react";
 import Badge from "react-bootstrap/Badge"
-import { v4 as uuidv4 } from "uuid";
 
 import TextCell from "./TextCell";
 import NumberCell from "./NumberCell"
 import StaticSelect from "./StaticSelectCell"
 
-const components = {
-    textCell: TextCell,
-    numberCell: NumberCell,
-    staticSelect: StaticSelect
-};
-
 class AddRow extends React.Component {
     constructor(props) {
         super(props);
 
+        let rowDefaults = [];
+        for(let column in this.props.headerRow)
+        {   
+            switch(this.props.headerRow[column].columnType)
+            {
+                case "text":
+                    rowDefaults.push("");
+                    break;
+
+                case "static":
+                    rowDefaults.push(this.props.headerRow[column].columnConstraints[0].value);
+                    break;
+
+                case "number":
+                    rowDefaults.push(0);
+                    break;
+            }
+        }
+
         this.state = {
-            editing: false
+            editing: false,
+            rowValues: this.makeDefaults()
         }
         //bind to instance
         this.handleOnClick = this.handleOnClick.bind(this);
@@ -28,13 +41,43 @@ class AddRow extends React.Component {
     render() {
         if(this.state.editing)
         {
+            //build cells
             let cells = [];
-            for(let i = 0; i < this.props.fieldTypes.length; i++) {
-                const CellType = components[this.props.fieldTypes[i]];
-                cells.push(
-                    <CellType {...this.props.fieldAttributes[i]} key={i} onChange={this.rowHandleChange} editable={true}
-                              name={this.props.fieldNames[i]} value={this.props[this.props.fieldNames[i]]}/>
-                )
+            for(let column in this.props.headerRow)
+            {
+                switch(this.props.headerRow[column].columnType)
+                {
+                    case "text":
+                        cells.push(<TextCell 
+                            key={column} 
+                            value={this.state.rowValues[column]}
+                            name={this.props.headerRow[column].columnName}
+                            editable={true}
+                            onChange={this.rowHandleChange}
+                        />);
+                        break;
+
+                    case "static":
+                        cells.push(<StaticSelect 
+                            key={column} 
+                            value={this.state.rowValues[column]}
+                            name={this.props.headerRow[column].columnName}
+                            options={this.props.headerRow[column].columnConstraints}
+                            editable={true}
+                            onChange={this.rowHandleChange}
+                        />);
+                        break;
+
+                    case "number":
+                        cells.push(<NumberCell 
+                            key={column + "2"} 
+                            value={this.state.rowValues[column]}
+                            name={this.props.headerRow[column].columnName}
+                            editable={true}
+                            onChange={this.rowHandleChange}
+                        />);
+                        break;
+                }
             }
             return(
                 <tr>
@@ -59,28 +102,56 @@ class AddRow extends React.Component {
     }
 
     rowHandleChange = (event) => {
-        this.props.tableHandleChange(
+        let newRows = JSON.parse(JSON.stringify(this.state.rowValues));
+        for(let column in this.props.headerRow)
+        {
+            if(event.target.name === this.props.headerRow[column].columnName)
             {
-                id: this.props.id,
-                field: event.target.name,
-                value: event.target.value
+                newRows[column] = event.target.value;
             }
-        )
+        }
+        this.setState({rowValues: newRows});
     };
 
     handleOnClick(event)
     {
+        this.props.editNotify(true);
         this.setState({editing: true});
     }
 
     handleAddClick(event)
     {
-        this.setState({editing: false});
+        this.props.editNotify(false);
+        this.setState({editing: false, rowValues: this.makeDefaults()});
     }
 
     handleCancelClick(event)
     {
-        this.setState({editing: false});
+        this.props.editNotify(false);
+        this.setState({editing: false, rowValues: this.makeDefaults()});
+    }
+
+    makeDefaults()
+    {
+        let rowDefaults = [];
+        for(let column in this.props.headerRow)
+        {   
+            switch(this.props.headerRow[column].columnType)
+            {
+                case "text":
+                    rowDefaults.push("");
+                    break;
+
+                case "static":
+                    rowDefaults.push(this.props.headerRow[column].columnConstraints[0].value);
+                    break;
+
+                case "number":
+                    rowDefaults.push(0);
+                    break;
+            }
+        }
+        return rowDefaults;
     }
 }
 
