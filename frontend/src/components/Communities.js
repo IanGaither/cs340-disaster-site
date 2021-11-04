@@ -1,9 +1,9 @@
 import React from "react";
 
-import TableView from "../TableView";
 import Card from "react-bootstrap/Card";
+import TableComponent from "../TableComponent";
 
-const tableProps = {
+/*const tableProps = {
     fieldTypes: ["textCell", "staticSelect", "numberCell"],
     headers: ["Name", "State", "Population"],
     fieldNames: ["name", "state", "population"],
@@ -60,7 +60,7 @@ const rowValues = [
         state: 15,
         population: 383997
     }
-];
+];*/
 
 class Communities extends React.Component {
 
@@ -80,7 +80,7 @@ class Communities extends React.Component {
                         </Card.Body>
                     </Card>
                 </div>
-                <TableView {...tableProps} rowValues={rowValues} />
+                <TableComponent source={"communities"} />
             </div>
         );
     }

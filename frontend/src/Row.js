@@ -3,13 +3,19 @@ import TextCell from "./TextCell";
 import NumberCell from "./NumberCell"
 import StaticSelect from "./StaticSelectCell"
 import Badge from "react-bootstrap/Badge"
-import { v4 as uuidv4 } from "uuid";
 
 const components = {
     textCell: TextCell,
     numberCell: NumberCell,
     staticSelect: StaticSelect
 };
+
+/*const CellType = 
+{
+    "text": TextCell,
+    "number": NumberCell,
+    "static": StaticSelect
+}*/
 
 class Row extends React.Component {
     constructor (props) {
@@ -22,19 +28,8 @@ class Row extends React.Component {
         this.handleCancelClick = this.handleCancelClick.bind(this);
     }
 
-    rowHandleChange = (event) => {
-        console.log("in rowHandleChange with");
-        console.log(event);
-        this.props.tableHandleChange(
-            {
-                id: this.props.id,
-                field: event.target.name,
-                value: event.target.value
-            }
-        )
-    };
-
     render() {
+        //set mode
         let editable = this.props.mode === "edit";
         let buttons;
         switch(this.props.mode) {
@@ -53,14 +48,45 @@ class Row extends React.Component {
                     <Badge bg="dark" className="mx-1" onClick={this.handleCancelClick}>Cancel</Badge>
                 </td>
         }
+        //build cells
         let cells = [];
-        for(let i = 0; i < this.props.fieldTypes.length; i++) {
-            const CellType = components[this.props.fieldTypes[i]];
-            cells.push(
-                <CellType {...this.props.fieldAttributes[i]} key={i} onChange={this.rowHandleChange} editable={editable}
-                          name={this.props.fieldNames[i]} value={this.props[this.props.fieldNames[i]]}/>
-            )
+        for(let column in this.props.columns)
+        {
+            switch(this.props.headerRow[column].columnType)
+            {
+                case "text":
+                    cells.push(<TextCell 
+                        key={column} 
+                        value={this.props.columns[column]}
+                        name={this.props.headerRow[column].columnName}
+                        editable={editable}
+                        onChange={this.rowHandleChange}
+                    />);
+                    break;
+
+                case "static":
+                    cells.push(<StaticSelect 
+                        key={column} 
+                        value={this.props.columns[column]}
+                        name={this.props.headerRow[column].columnName}
+                        options={this.props.headerRow[column].columnConstraints}
+                        editable={editable}
+                        onChange={this.rowHandleChange}
+                    />);
+                    break;
+
+                case "number":
+                    cells.push(<NumberCell 
+                        key={column} 
+                        value={this.props.columns[column]}
+                        name={this.props.headerRow[column].columnName}
+                        editable={editable}
+                        onChange={this.rowHandleChange}
+                    />);
+                    break;
+            }
         }
+        
         return (
             <tr onClick={this.handleOnClick}>
                 <td hidden>
@@ -70,6 +96,18 @@ class Row extends React.Component {
                 {buttons}
             </tr>)
     }
+
+    rowHandleChange = (event) => {
+        console.log("in rowHandleChange with");
+        console.log(event);
+        this.props.tableHandleChange(
+            {
+                rowID: this.props.rowID,
+                field: event.target.name,
+                value: event.target.value
+            }
+        )
+    };
 
     handleOnClick(event)
     {
@@ -101,3 +139,12 @@ class Row extends React.Component {
 }
 
 export default Row;
+
+/*        let cells = [];
+        for(let i = 0; i < this.props.fieldTypes.length; i++) {
+            const CellType = components[this.props.fieldTypes[i]];
+            cells.push(
+                <CellType {...this.props.fieldAttributes[i]} key={i} onChange={this.rowHandleChange} editable={editable}
+                          name={this.props.fieldNames[i]} value={this.props[this.props.fieldNames[i]]}/>
+            )
+        }*/ 
