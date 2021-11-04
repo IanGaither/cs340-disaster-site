@@ -86,7 +86,7 @@ class AddRow extends React.Component {
                     case "date":
                         cells.push(<DateCell
                             key={column}
-                            value={this.props.columns[column]}
+                            value={this.state.rowValues[column]}
                             name={this.props.headerRow[column].columnName}
                             editable={true}
                             onChange={this.rowHandleChange}
