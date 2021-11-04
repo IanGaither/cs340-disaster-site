@@ -2,6 +2,7 @@ import React from "react";
 import TextCell from "./TextCell";
 import NumberCell from "./NumberCell"
 import StaticSelect from "./StaticSelectCell"
+import DateCell from "./DateCell"
 import Badge from "react-bootstrap/Badge"
 
 class Row extends React.Component {
@@ -65,6 +66,16 @@ class Row extends React.Component {
                 case "number":
                     cells.push(<NumberCell 
                         key={column} 
+                        value={this.props.columns[column]}
+                        name={this.props.headerRow[column].columnName}
+                        editable={editable}
+                        onChange={this.rowHandleChange}
+                    />);
+                    break;
+
+                case "date":
+                    cells.push(<DateCell
+                        key={column}
                         value={this.props.columns[column]}
                         name={this.props.headerRow[column].columnName}
                         editable={editable}
