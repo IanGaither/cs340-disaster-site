@@ -62,7 +62,7 @@ class Row extends React.Component {
             )
         }
         return (
-            <tr onClick={this.handleOnClick}>
+            <tr onClick={this.handleOnClick} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
                 <td hidden>
                     {this.props.id}
                 </td>
@@ -98,6 +98,16 @@ class Row extends React.Component {
     {
         this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
     }
+
+    handleMouseEnter = (event) => {
+        this.props.handleRowModeUpdate(this.props.rowIndex, "active");
+    };
+
+    handleMouseLeave = (event) => {
+        if(this.props.mode !== "edit") {
+            this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
+        }
+    };
 }
 
 export default Row;
