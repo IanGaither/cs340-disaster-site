@@ -67,14 +67,16 @@ class TableView extends React.Component {
                 <HeaderRow headers={this.props.headers} buttonRowWidth="150"/>
                 <tbody>
                 {this.state.rowValues.map((rowValues, i) =>
-                    <Row {...rowValues} 
-                        key={rowValues.id} 
-                        rowIndex={i} 
+                    <Row {...rowValues}
+                        key={rowValues.id}
+                        rowIndex={i}
                         tableHandleChange={this.tableHandleChange}
                         handleRowModeUpdate={this.handleRowModeUpdate}
-                        fieldTypes={this.props.fieldTypes} 
-                        fieldNames={this.props.fieldNames} 
-                        fieldAttributes={this.props.fieldAttributes}/>
+                        fieldTypes={this.props.fieldTypes}
+                        fieldNames={this.props.fieldNames}
+                        fieldAttributes={this.props.fieldAttributes}
+                        handleMouseEnter={this.handleMouseEnter}
+                        handleMouseLeave={this.handleMouseLeave}/>
                 )}
                     <AddRow tableHandleChange={this.tableHandleChange}
                         {...this.state.addValues}
@@ -104,6 +106,18 @@ class TableView extends React.Component {
         else
             this.setState({rowValues: newRowValues, activeRow: rowIndex});
         
+    }
+
+    handleMouseEnter = (rowIndex) => {
+        if(this.state.activeRow === -1 || this.state.rowValues[this.state.activeRow].mode === "active") {
+            this.handleRowModeUpdate(rowIndex, "active");
+        }
+    };
+
+    handleMouseLeave = (rowIndex) => {
+        if(this.state.rowValues[rowIndex].mode === "active") {
+            this.handleRowModeUpdate(rowIndex, "inactive");
+        }
     }
 }
 
