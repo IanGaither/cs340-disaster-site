@@ -9,7 +9,6 @@ class Row extends React.Component {
     constructor (props) {
         super(props);
 
-        this.handleOnClick = this.handleOnClick.bind(this);
         this.handleEditClick = this.handleEditClick.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleSaveClick = this.handleSaveClick.bind(this);
@@ -106,14 +105,6 @@ class Row extends React.Component {
         )
     };
 
-    handleOnClick(event)
-    {
-        if(this.props.mode === "inactive")
-        {
-            this.props.handleRowModeUpdate(this.props.rowIndex, "active")
-        }
-    }
-
     handleEditClick(event)
     {
         this.props.handleRowModeUpdate(this.props.rowIndex, "edit");
@@ -140,6 +131,10 @@ class Row extends React.Component {
 
     handleMouseLeave = (event) => {
         this.props.handleMouseLeave(this.props.rowIndex)
+    };
+
+    handleMouseClick = (event) => {
+        this.props.handleMouseClick(this.props.rowIndex)
     };
 }
 

@@ -44,7 +44,7 @@ class AddRow extends React.Component {
     }
 
     render() {
-        if(this.state.editing)
+        if(this.props.editing)
         {
             //build cells
             let cells = [];
@@ -131,19 +131,17 @@ class AddRow extends React.Component {
     handleOnClick(event)
     {
         this.props.editNotify(true);
-        this.setState({editing: true});
+        this.setState({editing: false, rowValues: this.makeDefaults()});
     }
 
     handleAddClick(event)
     {
         this.props.editNotify(false);
-        this.setState({editing: false, rowValues: this.makeDefaults()});
     }
 
     handleCancelClick(event)
     {
         this.props.editNotify(false);
-        this.setState({editing: false, rowValues: this.makeDefaults()});
     }
 
     makeDefaults()

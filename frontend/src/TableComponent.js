@@ -41,12 +41,14 @@ class TableComponent extends React.Component {
                                 handleRowModeUpdate={this.handleRowModeUpdate}
                                 handleMouseEnter={this.handleMouseEnter}
                                 handleMouseLeave={this.handleMouseLeave}
+                                handleMouseClick={this.handleMouseClick}
                             />
                         )
                     }
                     {this.state.dataRows &&
                     <AddRow 
                         headerRow={this.state.headerRow} 
+                        editing={this.state.addEditing}
                         editNotify={this.isEditingAdd}
                     />}
                 </tbody>
@@ -89,14 +91,6 @@ class TableComponent extends React.Component {
                 break;
             }
         }
-        // for(let row in newRows)
-        // {
-        //     if(newRows[row].rowID === change.rowID)
-        //     {
-        //         newRows[row].columns[index] = change.value;
-        //         break;
-        //     }
-        // }
 
         newRows[change.rowIndex].columns[columnIndex] = change.value;
             
@@ -134,9 +128,15 @@ class TableComponent extends React.Component {
         }
     }
 
+    handleMouseClick = (rowIndex) => {
+        if(!this.state.addEditing && (this.state.activeRow === -1 || this.state.rowModes[this.state.activeRow] === "active"))
+            this.handleRowModeUpdate(rowIndex, "active");
+    }
+
     isEditingAdd(editingStatus)
     {
-        this.setState({addEditing: editingStatus})
+        if(this.state.activeRow === -1)
+            this.setState({addEditing: editingStatus})
     }
 }
 
