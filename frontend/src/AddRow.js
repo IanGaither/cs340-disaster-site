@@ -4,6 +4,7 @@ import Badge from "react-bootstrap/Badge"
 import TextCell from "./TextCell";
 import NumberCell from "./NumberCell"
 import StaticSelect from "./StaticSelectCell"
+import DateCell from "./DateCell";
 
 class AddRow extends React.Component {
     constructor(props) {
@@ -23,6 +24,10 @@ class AddRow extends React.Component {
                     break;
 
                 case "number":
+                    rowDefaults.push("");
+                    break;
+
+                case "date":
                     rowDefaults.push("");
                     break;
             }
@@ -71,6 +76,16 @@ class AddRow extends React.Component {
                     case "number":
                         cells.push(<NumberCell 
                             key={column + "2"} 
+                            value={this.state.rowValues[column]}
+                            name={this.props.headerRow[column].columnName}
+                            editable={true}
+                            onChange={this.rowHandleChange}
+                        />);
+                        break;
+
+                    case "date":
+                        cells.push(<DateCell
+                            key={column}
                             value={this.state.rowValues[column]}
                             name={this.props.headerRow[column].columnName}
                             editable={true}
@@ -147,6 +162,10 @@ class AddRow extends React.Component {
                     break;
 
                 case "number":
+                    rowDefaults.push("");
+                    break;
+
+                case "date":
                     rowDefaults.push("");
                     break;
             }

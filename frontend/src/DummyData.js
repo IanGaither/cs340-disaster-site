@@ -142,7 +142,7 @@ const EarthquakesTable =
         },
         {
             columnName: "Date",
-            columnType: "text"
+            columnType: "date"
         },
         {
             columnName: "Magnitude",
@@ -183,7 +183,7 @@ const EarthquakesTable =
             columns:
             [
                 "Great Alaska Earthquake",
-                "3-27-1964",
+                "1964-03-27",
                 9.2,
                 "60.908°N 147.339°W",
                 1
@@ -194,7 +194,7 @@ const EarthquakesTable =
             columns:
             [
                 "Northridge Earthquake",
-                "01-17-1994",
+                "1994-01-17",
                 6.7,
                 "34.213°N 118.537°W",
                 2
@@ -214,11 +214,11 @@ const HurricanesTable =
         },
         {
             columnName: "Start Date",
-            columnType: "text"
+            columnType: "date"
         },
         {
             columnName: "End Date",
-            columnType: "text"
+            columnType: "date"
         },
         {
             columnName: "Category",
@@ -236,8 +236,8 @@ const HurricanesTable =
             columns:
             [
                 "Hurricane Harvey",
-                "08-17-2017",
-                "09-2-2017",
+                "2017-08-17",
+                "2017-09-02",
                 4,
                 134
             ]
@@ -247,8 +247,8 @@ const HurricanesTable =
             columns:
             [
                 "Hurricane Katrina",
-                "08-23-2005",
-                "08-31-2005",
+                "2005-08-23",
+                "2005-08-31",
                 5,
                 175
             ]
