@@ -80,23 +80,25 @@ class TableComponent extends React.Component {
     tableHandleChange = (change) => {
         let newRows = JSON.parse(JSON.stringify(this.state.dataRows));
         //find column
-        let index = 0;
+        let columnIndex = 0;
         for(let column in this.state.headerRow)
         {
             if(change.field === this.state.headerRow[column].columnName)
             {
-                index = column;
+                columnIndex = column;
                 break;
             }
         }
-        for(let row in newRows)
-        {
-            if(newRows[row].rowID === change.rowID)
-            {
-                newRows[row].columns[index] = change.value;
-                break;
-            }
-        }
+        // for(let row in newRows)
+        // {
+        //     if(newRows[row].rowID === change.rowID)
+        //     {
+        //         newRows[row].columns[index] = change.value;
+        //         break;
+        //     }
+        // }
+
+        newRows[change.rowIndex].columns[columnIndex] = change.value;
             
         this.setState({dataRows: newRows});
     }

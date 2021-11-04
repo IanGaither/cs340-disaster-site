@@ -85,11 +85,10 @@ class Row extends React.Component {
     }
 
     rowHandleChange = (event) => {
-        console.log("in rowHandleChange with");
-        console.log(event.target);
         this.props.tableHandleChange(
             {
                 rowID: this.props.rowID,
+                rowIndex: this.props.rowIndex,
                 field: event.target.name,
                 value: event.target.value
             }
