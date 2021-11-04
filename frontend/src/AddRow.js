@@ -23,7 +23,7 @@ class AddRow extends React.Component {
                     break;
 
                 case "number":
-                    rowDefaults.push(0);
+                    rowDefaults.push("");
                     break;
             }
         }
@@ -147,7 +147,7 @@ class AddRow extends React.Component {
                     break;
 
                 case "number":
-                    rowDefaults.push(0);
+                    rowDefaults.push("");
                     break;
             }
         }
