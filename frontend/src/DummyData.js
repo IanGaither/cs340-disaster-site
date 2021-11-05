@@ -314,7 +314,7 @@ const ImpactsTable =
             [
                 {
                     value: -1,
-                    label: "Pick a community"
+                    label: "Pick a Community"
                 },
                 {
                     value: 1,
@@ -331,13 +331,13 @@ const ImpactsTable =
             ]
         },
         {
-            columnName: "Disaster",
+            columnName: "DisasterEvent",
             columnType: "static",
             columnConstraints:
             [
                 {
                     value: -1,
-                    label: "Pick a disaster"
+                    label: "Pick a DisasterEvent"
                 },
                 {
                     value: 1,
