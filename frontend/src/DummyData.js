@@ -314,7 +314,7 @@ const ImpactsTable =
             [
                 {
                     value: -1,
-                    label: "Pick a community"
+                    label: "Pick a Community"
                 },
                 {
                     value: 1,
@@ -337,7 +337,7 @@ const ImpactsTable =
             [
                 {
                     value: -1,
-                    label: "Pick a disaster"
+                    label: "Pick a DisasterEvent"
                 },
                 {
                     value: 1,
