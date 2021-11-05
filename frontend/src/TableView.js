@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import { v4 as uuidv4 } from "uuid";
 
 import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";

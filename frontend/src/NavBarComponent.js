@@ -25,7 +25,7 @@ class NavBarComponent extends React.Component {
                         </LinkContainer>
                     <Nav>
                         <LinkContainer to="/disasters">
-                            <NavLink>Disasters</NavLink>
+                            <NavLink>DisasterEvents</NavLink>
                         </LinkContainer>
                         <LinkContainer to="/communities">
                             <NavLink>Communities</NavLink>
