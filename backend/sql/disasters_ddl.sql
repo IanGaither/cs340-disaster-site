@@ -1,4 +1,8 @@
+DROP TABLE IF EXISTS impacts;
+DROP TABLE IF EXISTS earthquakes;
+DROP TABLE IF EXISTS hurricanes;
 DROP TABLE IF EXISTS communities;
+DROP TABLE IF EXISTS disaster_events;
 
 CREATE TABLE communities (
     community_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -9,14 +13,12 @@ CREATE TABLE communities (
     population INT(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS disaster_events;
 
 CREATE TABLE disaster_events (
     disaster_event_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS impacts;
 
 CREATE TABLE impacts (
     community_id INT(11) NOT NULL,
@@ -35,7 +37,6 @@ CREATE TABLE impacts (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS earthquakes;
 
 CREATE TABLE earthquakes (
     earthquake_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -50,17 +51,16 @@ CREATE TABLE earthquakes (
         ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS hurricanes;
 
 CREATE TABLE hurricanes (
     hurricane_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    disaster_event_id INT(11) NOT NULL,
+    disaster_event_id INT(11),
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     saffir_simpson_category TINYINT(2) NOT NULL,
     max_wind_speed INT NOT NULL,
     FOREIGN KEY hurricanes2disaster_events (disaster_event_id)
-        REFERENCES disaster_events (disaster_event_id)
+    REFERENCES disaster_events (disaster_event_id)
         ON UPDATE CASCADE
         ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
