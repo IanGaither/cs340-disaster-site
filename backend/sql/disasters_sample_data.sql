@@ -26,9 +26,9 @@ VALUES ((SELECT community_id FROM communities WHERE name = 'Houston' AND state =
 
 INSERT INTO earthquakes (disaster_event_id, date, richter_magnitude, epicenter, fault_type)
 VALUES ((SELECT disaster_event_id FROM disaster_events WHERE name = "Great Alaska Earthquake"),
-        "1964-03-27", 9.2, (60.908, -147.339), 'Normal'),
+        "1964-03-27", 9.2, ST_PointFromText('point(60.908 -147.339)'), 'Normal'),
        ((SELECT disaster_event_id FROM disaster_events WHERE name = "Northridge Earthquake"),
-        "1994-01-17", 6.7, (34.213, -118.537), 'Thrust');
+        "1994-01-17", 6.7, ST_POINTFROMTEXT('point(34.213 -118.537)'), 'Thrust');
 
 INSERT INTO hurricanes (disaster_event_id, start_date, end_date, saffir_simpson_category, max_wind_speed)
 VALUES ((SELECT disaster_event_id FROM disaster_events WHERE name = "Hurricane Harvey"),
