@@ -48,7 +48,8 @@ CREATE TABLE impacts (
     FOREIGN KEY impacts2disaster_events (disaster_event_id)
     REFERENCES disaster_events (disaster_event_id)
         ON UPDATE CASCADE
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+	UNIQUE KEY CommunityEvent(community_id, disaster_event_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
