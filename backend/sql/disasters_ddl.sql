@@ -43,7 +43,8 @@ CREATE TABLE earthquakes (
     disaster_event_id INT,
     date DATE NOT NULL,
     richter_magnitude DECIMAL(3,1) NOT NULL,
-    epicenter POINT NOT NULL,
+    epicenter_latitude DECIMAL(8,6) NOT NULL,
+    epicenter_longitude DECIMAL(9,6) NOT NULL,
     fault_type ENUM('Normal', 'Thrust', 'Strike-Slip', 'Oblique') NOT NULL,
     FOREIGN KEY earthquakes2disaster_events (disaster_event_id)
     REFERENCES disaster_events (disaster_event_id)
