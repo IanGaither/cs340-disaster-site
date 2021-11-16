@@ -144,7 +144,10 @@ class TableComponent extends React.Component {
     handleAddRow = (rowValues) => {
         rowValues = rowValues.map(value => value === -1 ? null :value);
         axios_instance.post('/api/' + this.props.source + '/', {columns: rowValues})
-            .then(response => console.log(response))
+            .then((response) => {
+                console.log(response)
+                this.fetchTableData()
+            })
             .catch((error) => {
                 console.log(error);
             });
