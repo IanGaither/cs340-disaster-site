@@ -50,6 +50,7 @@ class TableComponent extends React.Component {
                         headerRow={this.state.headerRow} 
                         editing={this.state.addEditing}
                         editNotify={this.isEditingAdd}
+                        handleAddRow={this.handleAddRow}
                     />}
                 </tbody>
             </Table>
@@ -138,6 +139,15 @@ class TableComponent extends React.Component {
     {
         if(this.state.activeRow === -1)
             this.setState({addEditing: editingStatus})
+    }
+
+    handleAddRow = (rowValues) => {
+        rowValues = rowValues.map(value => value === -1 ? null :value);
+        axios_instance.post('/api/' + this.props.source + '/', {columns: rowValues})
+            .then(response => console.log(response))
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }
 
