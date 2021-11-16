@@ -5,13 +5,7 @@ import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
 
-import { GetTable } from "./DummyData";
-
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
-
-const mock = new MockAdapter(axios);
-
+import axios_instance from "./mock";
 
 class TableComponent extends React.Component {
     constructor(props) {
@@ -70,10 +64,7 @@ class TableComponent extends React.Component {
 
     fetchTableData()
     {
-        const url = new RegExp(`/api/${this.props.source}/*`);
-        mock.onGet(url).reply(200, GetTable(this.props.source));
-
-        axios.get('/api/' + this.props.source + '/')
+        axios_instance.get('/api/' + this.props.source + '/')
             .then((response) => {
                 let rowModes = [];
                 for(let i = 0; i < response.data.dataRows.length; i++)
