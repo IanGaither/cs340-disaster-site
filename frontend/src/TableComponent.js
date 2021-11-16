@@ -7,6 +7,12 @@ import Row from "./Row"
 
 import { GetTable } from "./DummyData";
 
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+
+const mock = new MockAdapter(axios);
+
+
 class TableComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -59,24 +65,28 @@ class TableComponent extends React.Component {
 
     componentDidMount()
     {
-        this.fetchTableData(this.props.source);
+        this.fetchTableData();
     }
 
-    fetchTableData(source)
+    fetchTableData()
     {
-        //add mode to rows, will cause rows to deselect on changing tables
-        let rawData = GetTable(source);
-        let rowModes = [];
-        for(let row in rawData.dataRows)
-        {
-            rowModes.push("inactive");
-        }
-        this.setState({
-            title: rawData.title,
-            headerRow: rawData.headerRow,
-            dataRows: rawData.dataRows,
-            rowModes: rowModes,
-        });
+        const url = new RegExp(`/api/${this.props.source}/*`);
+        mock.onGet(url).reply(200, GetTable(this.props.source));
+
+        axios.get('/api/' + this.props.source + '/')
+            .then((response) => {
+                let rowModes = [];
+                for(let i = 0; i < response.data.dataRows.length; i++)
+                {
+                    rowModes.push("inactive");
+                }
+                this.setState({
+                    title: response.data.title,
+                    headerRow: response.data.headerRow,
+                    dataRows: response.data.dataRows,
+                    rowModes: rowModes,
+                })
+            })
     }
 
     tableHandleChange = (change) => {
