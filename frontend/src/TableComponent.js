@@ -5,7 +5,7 @@ import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
 
-import { GetTable } from "./DummyData";
+import axios_instance from "./mock";
 
 class TableComponent extends React.Component {
     constructor(props) {
@@ -50,6 +50,7 @@ class TableComponent extends React.Component {
                         headerRow={this.state.headerRow} 
                         editing={this.state.addEditing}
                         editNotify={this.isEditingAdd}
+                        handleAddRow={this.handleAddRow}
                     />}
                 </tbody>
             </Table>
@@ -59,24 +60,25 @@ class TableComponent extends React.Component {
 
     componentDidMount()
     {
-        this.fetchTableData(this.props.source);
+        this.fetchTableData();
     }
 
-    fetchTableData(source)
+    fetchTableData()
     {
-        //add mode to rows, will cause rows to deselect on changing tables
-        let rawData = GetTable(source);
-        let rowModes = [];
-        for(let row in rawData.dataRows)
-        {
-            rowModes.push("inactive");
-        }
-        this.setState({
-            title: rawData.title,
-            headerRow: rawData.headerRow,
-            dataRows: rawData.dataRows,
-            rowModes: rowModes,
-        });
+        axios_instance.get('/api/' + this.props.source + '/')
+            .then((response) => {
+                let rowModes = [];
+                for(let i = 0; i < response.data.dataRows.length; i++)
+                {
+                    rowModes.push("inactive");
+                }
+                this.setState({
+                    title: response.data.title,
+                    headerRow: response.data.headerRow,
+                    dataRows: response.data.dataRows,
+                    rowModes: rowModes,
+                })
+            })
     }
 
     tableHandleChange = (change) => {
@@ -137,6 +139,18 @@ class TableComponent extends React.Component {
     {
         if(this.state.activeRow === -1)
             this.setState({addEditing: editingStatus})
+    }
+
+    handleAddRow = (rowValues) => {
+        rowValues = rowValues.map(value => value === -1 ? null :value);
+        axios_instance.post('/api/' + this.props.source + '/', {columns: rowValues})
+            .then((response) => {
+                console.log(response)
+                this.fetchTableData()
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }
 

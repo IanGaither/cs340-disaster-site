@@ -137,6 +137,7 @@ class AddRow extends React.Component {
     handleAddClick(event)
     {
         this.props.editNotify(false);
+        this.props.handleAddRow(this.state.rowValues);
     }
 
     handleCancelClick(event)
