@@ -2,6 +2,8 @@ import React from 'react'
 import FormSelect from 'react-bootstrap/FormSelect'
 
 function StaticSelectCell(props) {
+    console.log(props.options);
+    console.log(props.value);
     const selectedText = props.options.filter(opt => opt.value === parseInt(props.value))[0].label;
     let options = props.options.map((opt)=>
         <option key={ opt.value } value={ opt.value } label={ opt.label }>

@@ -1,11 +1,14 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 
+import DatabaseInterface from "./DatabaseInterface";
+
 import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
 
 import axios_instance from "./mock";
+
 
 class TableComponent extends React.Component {
     constructor(props) {
@@ -65,7 +68,7 @@ class TableComponent extends React.Component {
 
     fetchTableData()
     {
-        axios_instance.get('/api/' + this.props.source + '/')
+        /*axios_instance.get('/api/' + this.props.source + '/')
             .then((response) => {
                 let rowModes = [];
                 for(let i = 0; i < response.data.dataRows.length; i++)
@@ -78,7 +81,22 @@ class TableComponent extends React.Component {
                     dataRows: response.data.dataRows,
                     rowModes: rowModes,
                 })
-            })
+            })*/
+        DatabaseInterface.Read(this.props.source)
+        .then((response) => 
+        {
+            let rowModes = [];
+            for(let i = 0; i < response.data.table.dataRows.length; i++)
+            {
+                rowModes.push("inactive");
+            }
+            this.setState({
+                title: response.data.table.title,
+                headerRow: response.data.table.headerRow,
+                dataRows: response.data.table.dataRows,
+                rowModes: rowModes,
+            });
+        });
     }
 
     tableHandleChange = (change) => {
