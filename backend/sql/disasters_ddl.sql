@@ -70,7 +70,7 @@ VALUES ((SELECT community_id FROM communities WHERE name = 'Houston' AND state =
 
 CREATE TABLE earthquakes (
     earthquake_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    disaster_event_id INT,
+    disaster_event_id INT NULL,
     date DATE NOT NULL,
     richter_magnitude DECIMAL(3,1) NOT NULL,
     epicenter_latitude DECIMAL(8,6) NOT NULL,
@@ -95,7 +95,7 @@ VALUES ((SELECT disaster_event_id FROM disaster_events WHERE name = "Great Alask
 
 CREATE TABLE hurricanes (
     hurricane_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    disaster_event_id INT,
+    disaster_event_id INT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     saffir_simpson_category TINYINT NOT NULL,
