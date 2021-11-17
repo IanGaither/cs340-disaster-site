@@ -172,8 +172,12 @@ const EarthquakesTable =
             columnType: "number"
         },
         {
-            columnName: "Epicenter",
-            columnType: "text"
+            columnName: "Epicenter Lat",
+            columnType: "number"
+        },
+        {
+            columnName: "Epicenter Lon",
+            columnType: "number"
         },
         {
             columnName: "Fault Type",
@@ -208,7 +212,8 @@ const EarthquakesTable =
                 2,
                 "1964-03-27",
                 9.2,
-                "60.908°N 147.339°W",
+                60.908,
+                -147.339,
                 1
             ]
         },
@@ -219,7 +224,8 @@ const EarthquakesTable =
                 4,
                 "1994-01-17",
                 6.7,
-                "34.213°N 118.537°W",
+                34.213,
+                -118.537,
                 2
             ]
         }
