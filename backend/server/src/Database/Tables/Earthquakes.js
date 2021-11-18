@@ -5,31 +5,9 @@ const tableName = 'earthquakes';
 const headerRow =
 [
     {
-        columnName: "DisasterEvent",
+        columnName: "Disaster Event",
         columnType: "static",
-        columnConstraints:
-        [
-            {
-                value: -1,
-                label: "None"
-            },
-            {
-                value: 1,
-                label: "Hurricane Harvey"
-            },
-            {
-                value: 2,
-                label: "Great Alaska Earthquake"
-            },
-            {
-                value: 3,
-                label: "Hurricane Katrina"
-            },
-            {
-                value: 4,
-                label: "Northridge Earthquake"
-            }
-        ]
+        columnConstraints: []
     },
     {
         columnName: "Date",
@@ -79,20 +57,43 @@ function Create(req, res)
 
 function Read(req, res)
 {
-    db.query('SELECT earthquake_id as id,\
-    disaster_events.name AS \'Disaster Event\', \
-    date AS Date, \
-    richter_magnitude AS Magnitude, \
-    epicenter_latitude AS \'Epicenter Latitude\',\
-    epicenter_longitude AS \'Epicenter Longitude\',\
-    fault_type+0 AS \'Fault Type\'\
-    FROM earthquakes\
-    LEFT JOIN disaster_events ON earthquakes.disaster_event_id = disaster_events.disaster_event_id;')
+    let table = new ResponseTable();
+    table.SetTableTitle('Earthquakes');
+    db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
     .then(function(data)
     {
-        let table = new ResponseTable();
-        table.SetTableTitle('Earthquakes');
-        table.SetTableHeaderRow(headerRow);
+        //generate dynamic constraints
+        let constraints = []
+        constraints.push({value: 0, label: 'None'});
+
+        for(let fk in data)
+        {
+            constraints.push({value: data[fk].id, label: data[fk].Name});
+        }
+        //insert new constraints based on FK values
+        for(let column in headerRow)
+        {
+            if(headerRow[column].columnName === 'Disaster Event')
+            {
+                headerRow[column].columnConstraints = constraints;
+                table.SetTableHeaderRow(headerRow);
+                break;
+            }
+        }
+    })
+    .then(function(data)
+    {
+        return db.query('SELECT earthquake_id as id,\
+            IFNULL(disaster_event_id, 0) AS \'Disaster Event\', \
+            date AS Date, \
+            richter_magnitude AS Magnitude, \
+            epicenter_latitude AS \'Epicenter Latitude\',\
+            epicenter_longitude AS \'Epicenter Longitude\',\
+            fault_type+0 AS \'Fault Type\'\
+            FROM earthquakes')
+        })
+    .then(function(data)
+    {
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });

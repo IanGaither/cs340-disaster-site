@@ -238,7 +238,7 @@ const HurricanesTable =
     headerRow:
     [
         {
-            columnName: "DisasterEvent",
+            columnName: "Disaster Event",
             columnType: "static",
             columnConstraints:
                 [
