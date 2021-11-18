@@ -1,11 +1,14 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 
+import DatabaseInterface from "./DatabaseInterface";
+
 import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
 
 import axios_instance from "./mock";
+
 
 class TableComponent extends React.Component {
     constructor(props) {
@@ -19,6 +22,8 @@ class TableComponent extends React.Component {
         this.handleRowModeUpdate = this.handleRowModeUpdate.bind(this);
         this.fetchTableData = this.fetchTableData.bind(this);
         this.isEditingAdd = this.isEditingAdd.bind(this);
+        this.handleUpdateRow = this.handleUpdateRow.bind(this);
+        this.handleDeleteRow = this.handleDeleteRow.bind(this);
     }
 
     render() {
@@ -65,7 +70,7 @@ class TableComponent extends React.Component {
 
     fetchTableData()
     {
-        axios_instance.get('/api/' + this.props.source + '/')
+        /*axios_instance.get('/api/' + this.props.source + '/')
             .then((response) => {
                 let rowModes = [];
                 for(let i = 0; i < response.data.dataRows.length; i++)
@@ -78,7 +83,22 @@ class TableComponent extends React.Component {
                     dataRows: response.data.dataRows,
                     rowModes: rowModes,
                 })
-            })
+            })*/
+        DatabaseInterface.Read(this.props.source)
+        .then((response) => 
+        {
+            let rowModes = [];
+            for(let i = 0; i < response.data.table.dataRows.length; i++)
+            {
+                rowModes.push("inactive");
+            }
+            this.setState({
+                title: response.data.table.title,
+                headerRow: response.data.table.headerRow,
+                dataRows: response.data.table.dataRows,
+                rowModes: rowModes,
+            });
+        });
     }
 
     tableHandleChange = (change) => {
@@ -142,7 +162,7 @@ class TableComponent extends React.Component {
     }
 
     handleAddRow = (rowValues) => {
-        rowValues = rowValues.map(value => value === -1 ? null :value);
+        /*rowValues = rowValues.map(value => value === -1 ? null :value);
         axios_instance.post('/api/' + this.props.source + '/', {columns: rowValues})
             .then((response) => {
                 console.log(response)
@@ -150,7 +170,23 @@ class TableComponent extends React.Component {
             })
             .catch((error) => {
                 console.log(error);
-            });
+            });*/
+        rowValues = rowValues.map(value => value === -1 ? null :value);
+        DatabaseInterface.Create(this.props.source, rowValues)
+        .then((response) =>
+        {
+            this.fetchTableData();
+        });
+    }
+
+    handleUpdateRow()
+    {
+        DatabaseInterface.Update();
+    }
+
+    handleDeleteRow()
+    {
+        DatabaseInterface.Delete();
     }
 }
 

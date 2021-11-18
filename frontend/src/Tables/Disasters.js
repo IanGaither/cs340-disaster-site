@@ -6,13 +6,13 @@ class Disasters extends React.Component {
 
     render() {
         return (
-            <div className="DisasterEvents">
+            <div className="Disaster Events">
                 <div className="container">
-                    <h1>DisasterEvents</h1>
+                    <h1>Disaster Events</h1>
                     <h6>This page is for viewing, editing, adding, and deleting rows to the DisasterEvents Table.</h6>
                     <Instructions />
                 </div>
-                <TableComponent source={"disasters"} />
+                <TableComponent source={"disaster_events"} />
             </div>
         );
     }

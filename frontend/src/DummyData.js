@@ -1,6 +1,6 @@
-const { default: Communities } = require("./components/Communities");
-const { default: Earthquakes } = require("./components/Earthquakes");
-const { default: Hurricanes } = require("./components/Hurricanes");
+const { default: Communities } = require("./Tables/Communities");
+const { default: Earthquakes } = require("./Tables/Earthquakes");
+const { default: Hurricanes } = require("./Tables/Hurricanes");
 
 module.exports.GetTable = function(tableName)
 {
@@ -238,7 +238,7 @@ const HurricanesTable =
     headerRow:
     [
         {
-            columnName: "DisasterEvent",
+            columnName: "Disaster Event",
             columnType: "static",
             columnConstraints:
                 [

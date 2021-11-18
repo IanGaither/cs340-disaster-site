@@ -3,11 +3,11 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import NavBarComponent from "./NavBarComponent";
 //import TableView from "./TableView"
-import Disasters from "./components/Disasters";
-import Communities from "./components/Communities";
-import Earthquakes from "./components/Earthquakes";
-import Impacts from "./components/Impacts";
-import Hurricanes from "./components/Hurricanes";
+import Disasters from "./Tables/Disasters";
+import Communities from "./Tables/Communities";
+import Earthquakes from "./Tables/Earthquakes";
+import Impacts from "./Tables/Impacts";
+import Hurricanes from "./Tables/Hurricanes";
 
 /*const tableProps = {
     fieldTypes: ["textCell", "staticSelect", "numberCell"],
@@ -46,7 +46,7 @@ class AppContainer extends React.Component {
                 <div className="App">
                     <NavBarComponent/>
                 <Switch>
-                    <Route path="/disasters">
+                    <Route path="/disaster_events">
                         <Disasters/>
                     </Route>
                     <Route path="/communities">
