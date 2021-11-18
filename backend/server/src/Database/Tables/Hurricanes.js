@@ -29,7 +29,15 @@ const headerRow =
 
 function Create(req, res)
 {
-    
+    if(req.body.newRow[0] === 0)
+    req.body.newRow[0] = null;
+
+    db.query('INSERT INTO hurricanes (disaster_event_id, start_date, end_date, saffir_simpson_category, max_wind_speed) \
+    VALUES (?, ?, ?, ?, ?);', req.body.newRow)
+    .then(function(data)
+    {
+        res.send('done');
+    });
 }
 
 function Read(req, res)

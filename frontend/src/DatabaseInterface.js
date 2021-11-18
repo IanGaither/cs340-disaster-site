@@ -6,20 +6,20 @@ route += process.env.REACT_APP_DB_PATH_ROOT;
 
 const DatabaseInterface = 
 {
-    Create: function(tableName, rowID, rowValues)
+    Create: function(tableName, rowValues)
     {
-        return axios.post(route + tableName, {
-            row: rowID,
-            data: rowValues
-        });
+        return axios.post(route + tableName, {newRow: rowValues});
     },
     Read: function(tableName)
     {
         return axios.get(route + tableName);
     },
-    Update: function()
+    Update: function(tableName, rowID, rowValues)
     {
-
+        return axios.put(route + tableName, {
+            row: rowID,
+            data: rowValues
+        });
     },
     Delete: function()
     {

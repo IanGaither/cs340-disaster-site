@@ -34,7 +34,12 @@ const headerRow =
 
 function Create(req, res)
 {
-    
+    db.query('INSERT INTO impacts (community_id, disaster_event_id, fatality_count, injury_count, property_damage, relief_cost) \
+    VALUES (?, ?, ?, ?, ?, ?);', req.body.newRow)
+    .then(function(data)
+    {
+        res.send('done');
+    });
 }
 
 function Read(req, res)

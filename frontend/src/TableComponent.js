@@ -22,6 +22,8 @@ class TableComponent extends React.Component {
         this.handleRowModeUpdate = this.handleRowModeUpdate.bind(this);
         this.fetchTableData = this.fetchTableData.bind(this);
         this.isEditingAdd = this.isEditingAdd.bind(this);
+        this.handleUpdateRow = this.handleUpdateRow.bind(this);
+        this.handleDeleteRow = this.handleDeleteRow.bind(this);
     }
 
     render() {
@@ -160,7 +162,7 @@ class TableComponent extends React.Component {
     }
 
     handleAddRow = (rowValues) => {
-        rowValues = rowValues.map(value => value === -1 ? null :value);
+        /*rowValues = rowValues.map(value => value === -1 ? null :value);
         axios_instance.post('/api/' + this.props.source + '/', {columns: rowValues})
             .then((response) => {
                 console.log(response)
@@ -168,7 +170,23 @@ class TableComponent extends React.Component {
             })
             .catch((error) => {
                 console.log(error);
-            });
+            });*/
+        rowValues = rowValues.map(value => value === -1 ? null :value);
+        DatabaseInterface.Create(this.props.source, rowValues)
+        .then((response) =>
+        {
+            this.fetchTableData();
+        });
+    }
+
+    handleUpdateRow()
+    {
+        DatabaseInterface.Update();
+    }
+
+    handleDeleteRow()
+    {
+        DatabaseInterface.Delete();
     }
 }
 

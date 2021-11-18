@@ -52,7 +52,15 @@ const headerRow =
 
 function Create(req, res)
 {
-    
+    if(req.body.newRow[0] === 0)
+        req.body.newRow[0] = null;
+
+    db.query('INSERT INTO earthquakes (disaster_event_id, date, richter_magnitude, epicenter_latitude, epicenter_longitude, fault_type) \
+    VALUES (?, ?, ?, ?, ?, ?);', req.body.newRow)
+    .then(function(data)
+    {
+        res.send('done');
+    });
 }
 
 function Read(req, res)

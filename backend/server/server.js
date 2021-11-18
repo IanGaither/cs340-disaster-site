@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config();
 const path = require('path');
 const express = require('express');
+
 const app = express();
 
 async function run() 
@@ -8,6 +9,8 @@ async function run()
     //wait for async db connection to finish
     const db = require('./src/Database/database')
     await db.connectDB();
+
+    app.use(express.json());
     //allows use of default development staging for React
     app.use(function(req, res, next) {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

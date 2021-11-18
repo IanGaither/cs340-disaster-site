@@ -6,9 +6,11 @@ import axios from 'axios';
 
 import React from "react";
 
+import DatabaseInterface from "./DatabaseInterface";
+
 function Instructions() {
     function handleReset() {
-        axios.get('/api/reset')
+        DatabaseInterface.Reset()//axios.get('/api/reset')
             .then(() => {
                 window.location.reload();
                 return false;

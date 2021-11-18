@@ -237,9 +237,11 @@ const headerRow = [
 
 function Create(req, res)
 {
-    console.log(req.query);
-    /*db.query('INSERT INTO ' + tableName +' (name, state, population)\
-        VALUES (?, ?, ?);', req.query);*/
+    db.query('INSERT INTO communities (name, state, population) VALUES (?, ?, ?);', req.body.newRow)
+    .then(function(data)
+    {
+        res.send('done');
+    });
 }
 
 function Read(req, res)
