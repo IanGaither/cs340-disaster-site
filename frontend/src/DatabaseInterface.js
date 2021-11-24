@@ -20,6 +20,10 @@ const DatabaseInterface =
             row: rowID,
             data: rowValues
         });
+        // console.log({
+        //     row: rowID,
+        //     data: rowValues
+        // })
     },
     Delete: function()
     {

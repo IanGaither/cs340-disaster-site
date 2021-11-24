@@ -44,6 +44,8 @@ class TableComponent extends React.Component {
                                 columns={row.columns}
                                 tableHandleChange={this.tableHandleChange}
                                 handleRowModeUpdate={this.handleRowModeUpdate}
+                                handleUpdateRow={this.handleUpdateRow}
+                                handleDeleteRow={this.handleDeleteRow}
                                 handleMouseEnter={this.handleMouseEnter}
                                 handleMouseLeave={this.handleMouseLeave}
                                 handleMouseClick={this.handleMouseClick}
@@ -70,20 +72,6 @@ class TableComponent extends React.Component {
 
     fetchTableData()
     {
-        /*axios_instance.get('/api/' + this.props.source + '/')
-            .then((response) => {
-                let rowModes = [];
-                for(let i = 0; i < response.data.dataRows.length; i++)
-                {
-                    rowModes.push("inactive");
-                }
-                this.setState({
-                    title: response.data.title,
-                    headerRow: response.data.headerRow,
-                    dataRows: response.data.dataRows,
-                    rowModes: rowModes,
-                })
-            })*/
         DatabaseInterface.Read(this.props.source)
         .then((response) => 
         {
@@ -179,9 +167,10 @@ class TableComponent extends React.Component {
         });
     }
 
-    handleUpdateRow()
+    handleUpdateRow(rowID, rowIndex)
     {
-        DatabaseInterface.Update();
+        this.handleRowModeUpdate(rowIndex, "active");
+        DatabaseInterface.Update(this.props.source, rowID, this.state.dataRows[rowIndex].columns);
     }
 
     handleDeleteRow()
