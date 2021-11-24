@@ -25,9 +25,12 @@ const DatabaseInterface =
         //     data: rowValues
         // })
     },
-    Delete: function()
+    Delete: function(tableName, rowID)
     {
-
+        return axios.delete(route + tableName + "/" + rowID.toString);
+        // console.log({
+        //     row: rowID,
+        // })
     },
     Reset: function()
     {

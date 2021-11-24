@@ -173,9 +173,10 @@ class TableComponent extends React.Component {
         DatabaseInterface.Update(this.props.source, rowID, this.state.dataRows[rowIndex].columns);
     }
 
-    handleDeleteRow()
+    handleDeleteRow(rowID, rowIndex)
     {
-        DatabaseInterface.Delete();
+        this.handleRowModeUpdate(rowIndex, "inactive");
+        DatabaseInterface.Delete(this.props.source, rowID);
     }
 }
 

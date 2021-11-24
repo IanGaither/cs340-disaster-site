@@ -112,7 +112,8 @@ class Row extends React.Component {
 
     handleDeleteClick(event)
     {
-        this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
+        // this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
+        this.props.handleDeleteRow(this.props.rowID, this.props.rowIndex)
     }
 
     handleSaveClick(event)
