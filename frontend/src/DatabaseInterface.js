@@ -16,10 +16,7 @@ const DatabaseInterface =
     },
     Update: function(tableName, rowID, rowValues)
     {
-        return axios.put(route + tableName, {
-            row: rowID,
-            data: rowValues
-        });
+        return axios.put(route + tableName + "?row=" + rowID.toString(), {newRow: rowValues});
         // console.log({
         //     row: rowID,
         //     data: rowValues
@@ -27,7 +24,7 @@ const DatabaseInterface =
     },
     Delete: function(tableName, rowID)
     {
-        return axios.delete(route + tableName + "/" + rowID.toString);
+        return axios.delete(route + tableName + "?row=" + rowID.toString);
         // console.log({
         //     row: rowID,
         // })
