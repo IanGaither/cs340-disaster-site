@@ -230,7 +230,12 @@ const headerRow = [
     },
     {
         columnName: "Population",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
     }
 ];
 

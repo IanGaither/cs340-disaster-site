@@ -75,9 +75,10 @@ class AddRow extends React.Component {
 
                     case "number":
                         cells.push(<NumberCell 
-                            key={column + "2"} 
+                            key={column} 
                             value={this.state.rowValues[column]}
                             name={this.props.headerRow[column].columnName}
+                            options={this.props.headerRow[column].columnConstraints}
                             editable={true}
                             onChange={this.rowHandleChange}
                         />);
@@ -136,7 +137,7 @@ class AddRow extends React.Component {
 
     handleAddClick(event)
     {
-        this.props.editNotify(false);
+        //this.props.editNotify(false);
         this.props.handleAddRow(this.state.rowValues);
     }
 

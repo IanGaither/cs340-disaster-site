@@ -67,6 +67,7 @@ class Row extends React.Component {
                         key={column} 
                         value={this.props.columns[column]}
                         name={this.props.headerRow[column].columnName}
+                        options={this.props.headerRow[column].columnConstraints}
                         editable={editable}
                         onChange={this.rowHandleChange}
                     />);

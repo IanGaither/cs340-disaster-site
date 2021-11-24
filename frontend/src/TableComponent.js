@@ -7,8 +7,6 @@ import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
 
-import axios_instance from "./mock";
-
 
 class TableComponent extends React.Component {
     constructor(props) {
@@ -16,7 +14,8 @@ class TableComponent extends React.Component {
 
         this.state = {
             activeRow: -1, 
-            addEditing: false
+            addEditing: false,
+            editRow: [],
         };
         //bind to instance
         this.handleRowModeUpdate = this.handleRowModeUpdate.bind(this);
@@ -35,19 +34,33 @@ class TableComponent extends React.Component {
                 <tbody>
                     {this.state.dataRows &&
                         this.state.dataRows.map((row, i) =>
+                            (this.state.rowModes[i] === 'edit') ?
                             <Row 
                                 key={row.rowID}
                                 rowID={row.rowID}
                                 rowIndex={i} 
                                 mode={this.state.rowModes[i]} 
                                 headerRow={this.state.headerRow} 
-                                columns={row.columns}
+                                columns={this.state.editRow}
                                 tableHandleChange={this.tableHandleChange}
                                 handleRowModeUpdate={this.handleRowModeUpdate}
                                 handleMouseEnter={this.handleMouseEnter}
                                 handleMouseLeave={this.handleMouseLeave}
                                 handleMouseClick={this.handleMouseClick}
                             />
+                            : <Row 
+                            key={row.rowID}
+                            rowID={row.rowID}
+                            rowIndex={i} 
+                            mode={this.state.rowModes[i]} 
+                            headerRow={this.state.headerRow} 
+                            columns={row.columns}
+                            tableHandleChange={this.tableHandleChange}
+                            handleRowModeUpdate={this.handleRowModeUpdate}
+                            handleMouseEnter={this.handleMouseEnter}
+                            handleMouseLeave={this.handleMouseLeave}
+                            handleMouseClick={this.handleMouseClick}
+                        />
                         )
                     }
                     {this.state.dataRows &&
@@ -70,20 +83,6 @@ class TableComponent extends React.Component {
 
     fetchTableData()
     {
-        /*axios_instance.get('/api/' + this.props.source + '/')
-            .then((response) => {
-                let rowModes = [];
-                for(let i = 0; i < response.data.dataRows.length; i++)
-                {
-                    rowModes.push("inactive");
-                }
-                this.setState({
-                    title: response.data.title,
-                    headerRow: response.data.headerRow,
-                    dataRows: response.data.dataRows,
-                    rowModes: rowModes,
-                })
-            })*/
         DatabaseInterface.Read(this.props.source)
         .then((response) => 
         {
@@ -102,7 +101,8 @@ class TableComponent extends React.Component {
     }
 
     tableHandleChange = (change) => {
-        let newRows = JSON.parse(JSON.stringify(this.state.dataRows));
+        //let newRows = JSON.parse(JSON.stringify(this.state.dataRows));
+        let newRow = JSON.parse(JSON.stringify(this.state.editRow));
         //find column
         let columnIndex = 0;
         for(let column in this.state.headerRow)
@@ -114,9 +114,12 @@ class TableComponent extends React.Component {
             }
         }
 
-        newRows[change.rowIndex].columns[columnIndex] = change.value;
-            
-        this.setState({dataRows: newRows});
+        //newRows[change.rowIndex].columns[columnIndex] = change.value;
+        newRow[columnIndex] = change.value
+        this.setState({editRow: newRow});
+        //this.setState({dataRows: newRows});
+
+
     }
 
     handleRowModeUpdate(rowIndex, newMode)
@@ -133,6 +136,15 @@ class TableComponent extends React.Component {
 
         if(newMode === "inactive")
             this.setState({rowModes: newRowModes, activeRow: -1});
+        else if(newMode === 'edit')
+        {
+            let newEditRow = [];
+            for(let column in this.state.dataRows[rowIndex].columns)
+            {
+                newEditRow.push(this.state.dataRows[rowIndex].columns[column]);
+            }
+            this.setState({rowModes: newRowModes, activeRow: rowIndex, editRow: newEditRow});
+        }
         else
             this.setState({rowModes: newRowModes, activeRow: rowIndex});
         
@@ -162,21 +174,41 @@ class TableComponent extends React.Component {
     }
 
     handleAddRow = (rowValues) => {
-        /*rowValues = rowValues.map(value => value === -1 ? null :value);
-        axios_instance.post('/api/' + this.props.source + '/', {columns: rowValues})
-            .then((response) => {
-                console.log(response)
-                this.fetchTableData()
-            })
-            .catch((error) => {
-                console.log(error);
-            });*/
-        rowValues = rowValues.map(value => value === -1 ? null :value);
-        DatabaseInterface.Create(this.props.source, rowValues)
-        .then((response) =>
+        rowValues = this.validateRow(rowValues);
+        if(rowValues)
         {
-            this.fetchTableData();
-        });
+            this.isEditingAdd(false)
+            DatabaseInterface.Create(this.props.source, rowValues)
+            .then((response) =>
+            {
+                this.fetchTableData();
+            });
+        }
+    }
+
+    validateRow = (rowValues) =>
+    {
+        for(let column in rowValues)
+        {
+            switch(this.state.headerRow[column].columnType)
+            {
+                case 'static':
+                    if(rowValues[column] === -1)
+                        rowValues[column] = null;
+                    break;
+                case 'number':
+                    if(!rowValues[column] || 
+                        rowValues[column] < this.state.headerRow[column].columnConstraints.min ||
+                        rowValues[column] > this.state.headerRow[column].columnConstraints.max)
+                    {
+                        return null;
+                    }
+                    break;
+                case 'text':
+                    break;
+            }
+        }
+        return rowValues;
     }
 
     handleUpdateRow()

@@ -19,11 +19,22 @@ const headerRow =
     },
     {
         columnName: "Category",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 1,
+            max: 5
+        }
     },
     {
         columnName: "Max Wind Speed",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
+        
     }
 ];
 
