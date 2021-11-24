@@ -159,7 +159,7 @@ class TableComponent extends React.Component {
             .catch((error) => {
                 console.log(error);
             });*/
-        rowValues = rowValues.map(value => value === -1 ? null :value);
+        rowValues = rowValues.map(value => value === -1 ? null : value);
         DatabaseInterface.Create(this.props.source, rowValues)
         .then((response) =>
         {
@@ -170,13 +170,20 @@ class TableComponent extends React.Component {
     handleUpdateRow(rowID, rowIndex)
     {
         this.handleRowModeUpdate(rowIndex, "active");
-        DatabaseInterface.Update(this.props.source, rowID, this.state.dataRows[rowIndex].columns);
+        let rowValues = this.state.dataRows[rowIndex].columns.map(value => value === -1 ? null : value);
+        DatabaseInterface.Update(this.props.source, rowID, rowValues)
+            .then((response) => {
+                this.fetchTableData();
+            });
     }
 
     handleDeleteRow(rowID, rowIndex)
     {
         this.handleRowModeUpdate(rowIndex, "inactive");
-        DatabaseInterface.Delete(this.props.source, rowID);
+        DatabaseInterface.Delete(this.props.source, rowID)
+            .then((response) => {
+                this.fetchTableData();
+            });
     }
 }
 
