@@ -16,19 +16,39 @@ const headerRow =
     },
     {
         columnName: "Fatalities",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
     },
     {
         columnName: "Injuries",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
     },
     {
         columnName: "Property Damage",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
     },
     {
         columnName: "Relief Cost",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
     }
 ];
 

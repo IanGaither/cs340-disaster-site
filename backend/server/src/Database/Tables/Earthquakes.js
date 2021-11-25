@@ -15,15 +15,30 @@ const headerRow =
     },
     {
         columnName: "Magnitude",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 1,
+            max: 15
+        }
     },
     {
         columnName: "Epicenter Lat",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: -90,
+            max: 90
+        }
     },
     {
         columnName: "Epicenter Lon",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: -180,
+            max: 180
+        }
     },
     {
         columnName: "Fault Type",
