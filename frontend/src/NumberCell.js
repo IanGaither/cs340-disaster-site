@@ -12,7 +12,7 @@ function NumberCell(props) {
                             value={props.value} 
                             name={props.name} 
                             onChange={props.onChange}
-                            isInvalid={!props.value || props.value < props.options.min || props.value > props.options.max}/>
+                            isInvalid={typeof props.value === 'undefined' || props.value < props.options.min || props.value > props.options.max}/>
                         <Form.Control.Feedback type='invalid' tooltip>
                             Please enter a value between {props.options.min} and {props.options.max}
                         </Form.Control.Feedback>

@@ -264,14 +264,13 @@ function Read(req, res)
 
 function Update(req, res)
 {
-    
     let args = req.body.newRow;
     args.push(req.query.row);
     db.query('UPDATE communities \
     SET name = ?, \
     state = ?, \
     population = ? \
-    WHERE community_id = ?', args)
+    WHERE community_id = ?;', args)
     .then(function(data)
     {
         res.send('done')
@@ -280,7 +279,7 @@ function Update(req, res)
 
 function Delete(req, res)
 {
-    db.query('DELETE FROM communities WHERE community_id = ?', req.query.row)
+    db.query('DELETE FROM communities WHERE community_id = ?;', req.query.row)
     .then(function(data)
     {
         res.send('done')

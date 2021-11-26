@@ -38,7 +38,7 @@ const headerRow =
         columnConstraints: 
         {
             min: 0,
-            max: 2147483647
+            max: 9223372036854775807
         }
     },
     {
@@ -47,7 +47,7 @@ const headerRow =
         columnConstraints: 
         {
             min: 0,
-            max: 2147483647
+            max: 9223372036854775807
         }
     }
 ];
@@ -131,12 +131,31 @@ function Read(req, res)
 
 function Update(req, res)
 {
+    let ids = req.query.row.split(' ');
+    let args = req.body.newRow.concat(ids);
 
+    db.query('UPDATE impacts SET community_id = ?, \
+    disaster_event_id = ?, \
+    fatality_count = ?, \
+    injury_count = ?, \
+    property_damage = ?, \
+    relief_cost = ? \
+    WHERE community_id = ? AND disaster_event_id = ?;', args)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 function Delete(req, res)
 {
-
+    let ids = req.query.row.split(' ');
+    
+    db.query('DELETE FROM impacts WHERE community_id = ? AND disaster_event_id = ?;', ids)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 

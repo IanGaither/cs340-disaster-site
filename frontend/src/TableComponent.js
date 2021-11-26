@@ -221,7 +221,7 @@ class TableComponent extends React.Component {
                         rowValues[column] = null;
                     break;
                 case 'number':
-                    if(!rowValues[column] || 
+                    if(typeof rowValues[column] === 'undefined' || 
                         rowValues[column] < this.state.headerRow[column].columnConstraints.min ||
                         rowValues[column] > this.state.headerRow[column].columnConstraints.max)
                     {
