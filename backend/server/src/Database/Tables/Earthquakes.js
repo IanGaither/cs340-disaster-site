@@ -18,7 +18,7 @@ const headerRow =
         columnType: "number",
         columnConstraints: 
         {
-            min: 1,
+            min: 0,
             max: 15
         }
     },
