@@ -5,7 +5,19 @@ function NumberCell(props) {
     return (
         <td>
             {props.editable
-                ? <Form.Control type="number" value={props.value} name={props.name} onChange={props.onChange}/>
+                ? <div>
+                    <Form.Group className="position-relative">
+                        <Form.Control 
+                            type="number" 
+                            value={props.value} 
+                            name={props.name} 
+                            onChange={props.onChange}
+                            isInvalid={typeof props.value === 'undefined' || props.value < props.options.min || props.value > props.options.max}/>
+                        <Form.Control.Feedback type='invalid' tooltip>
+                            Please enter a value between {props.options.min} and {props.options.max}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                </div>
                 : props.value
             }
         </td>);

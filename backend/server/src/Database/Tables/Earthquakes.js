@@ -15,15 +15,30 @@ const headerRow =
     },
     {
         columnName: "Magnitude",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 1,
+            max: 15
+        }
     },
     {
         columnName: "Epicenter Lat",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: -90,
+            max: 90
+        }
     },
     {
         columnName: "Epicenter Lon",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: -180,
+            max: 180
+        }
     },
     {
         columnName: "Fault Type",
@@ -109,12 +124,28 @@ function Read(req, res)
 
 function Update(req, res)
 {
-
+    let args = req.body.newRow;
+    args.push(req.query.row);
+    db.query('UPDATE earthquakes SET disaster_event_id = ?, \
+    date = ?, \
+    richter_magnitude = ?, \
+    epicenter_latitude = ?, \
+    epicenter_longitude = ?, \
+    fault_type = ? \
+    WHERE earthquake_id = ?;', args)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 function Delete(req, res)
 {
-
+    db.query('DELETE FROM earthquakes WHERE earthquake_id = ?;', req.query.row)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 

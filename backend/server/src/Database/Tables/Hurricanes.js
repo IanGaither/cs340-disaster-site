@@ -19,11 +19,22 @@ const headerRow =
     },
     {
         columnName: "Category",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 1,
+            max: 5
+        }
     },
     {
         columnName: "Max Wind Speed",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
+        
     }
 ];
 
@@ -85,12 +96,27 @@ function Read(req, res)
 
 function Update(req, res)
 {
-
+    let args = req.body.newRow;
+    args.push(req.query.row);
+    db.query('UPDATE hurricanes SET disaster_event_id = ?, \
+    start_date = ?, \
+    end_date = ?, \
+    saffir_simpson_category = ?, \
+    max_wind_speed = ? \
+    WHERE hurricane_id = ?;', args)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 function Delete(req, res)
 {
-
+    db.query('DELETE FROM hurricanes WHERE hurricane_id = ?;', req.query.row)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 

@@ -230,7 +230,12 @@ const headerRow = [
     },
     {
         columnName: "Population",
-        columnType: "number"
+        columnType: "number",
+        columnConstraints: 
+        {
+            min: 0,
+            max: 2147483647
+        }
     }
 ];
 
@@ -259,12 +264,26 @@ function Read(req, res)
 
 function Update(req, res)
 {
-
+    let args = req.body.newRow;
+    args.push(req.query.row);
+    db.query('UPDATE communities \
+    SET name = ?, \
+    state = ?, \
+    population = ? \
+    WHERE community_id = ?;', args)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 function Delete(req, res)
 {
-
+    db.query('DELETE FROM communities WHERE community_id = ?;', req.query.row)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 

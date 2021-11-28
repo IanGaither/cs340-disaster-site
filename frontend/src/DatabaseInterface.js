@@ -16,14 +16,18 @@ const DatabaseInterface =
     },
     Update: function(tableName, rowID, rowValues)
     {
-        return axios.put(route + tableName, {
-            row: rowID,
-            data: rowValues
-        });
+        return axios.put(route + tableName + "?row=" + rowID.toString(), {newRow: rowValues});
+        // console.log({
+        //     row: rowID,
+        //     data: rowValues
+        // })
     },
-    Delete: function()
+    Delete: function(tableName, rowID)
     {
-
+        return axios.delete(route + tableName + "?row=" + rowID.toString());
+        // console.log({
+        //     row: rowID,
+        // })
     },
     Reset: function()
     {

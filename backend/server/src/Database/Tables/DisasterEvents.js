@@ -34,12 +34,23 @@ function Read(req, res)
 
 function Update(req, res)
 {
-
+    let args = req.body.newRow;
+    args.push(req.query.row);
+    db.query('UPDATE disaster_events SET name = ? \
+    WHERE disaster_event_id = ?;', args)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 function Delete(req, res)
 {
-
+    db.query('DELETE FROM disaster_events WHERE disaster_event_id = ?;', req.query.row)
+    .then(function(data)
+    {
+        res.send('done')
+    });
 }
 
 

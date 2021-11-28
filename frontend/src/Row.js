@@ -67,6 +67,7 @@ class Row extends React.Component {
                         key={column} 
                         value={this.props.columns[column]}
                         name={this.props.headerRow[column].columnName}
+                        options={this.props.headerRow[column].columnConstraints}
                         editable={editable}
                         onChange={this.rowHandleChange}
                     />);
@@ -112,12 +113,14 @@ class Row extends React.Component {
 
     handleDeleteClick(event)
     {
-        this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
+        // this.props.handleRowModeUpdate(this.props.rowIndex, "inactive");
+        this.props.handleDeleteRow(this.props.rowID, this.props.rowIndex)
     }
 
     handleSaveClick(event)
     {
-        this.props.handleRowModeUpdate(this.props.rowIndex, "active");
+        // this.props.handleRowModeUpdate(this.props.rowIndex, "active");
+        this.props.handleUpdateRow(this.props.rowID, this.props.rowIndex)
     }
 
     handleCancelClick(event)
