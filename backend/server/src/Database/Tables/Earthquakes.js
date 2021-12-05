@@ -66,7 +66,7 @@ const headerRow =
 ];
 const headerFields = 
 [
-    {value: 'disaster_event_id', label: 'Disaster Event'},
+    {value: 'disaster_event_name', label: 'Disaster Event'},
     {value: 'date', label: 'Date'},
     {value: 'richter_magnitude', label: 'Magnitude'},
     {value: 'epicenter_latitude', label: 'Epicenter Lat'},
@@ -197,7 +197,7 @@ function Search(req, res)
             epicenter_latitude AS \'Epicenter Latitude\',\
             epicenter_longitude AS \'Epicenter Longitude\',\
             fault_type+0 AS \'Fault Type\'\
-            FROM earthquakes \
+            FROM (earthquakes LEFT JOIN disaster_events USING(disaster_event_id)) \
             WHERE ?? LIKE ?;', args)
         })
     .then(function(data)

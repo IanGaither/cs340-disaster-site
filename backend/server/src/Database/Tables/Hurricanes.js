@@ -57,7 +57,7 @@ const headerRow =
 ];
 const headerFields = 
 [
-    {value: 'disaster_event_id', label: 'Disaster Event'},
+    {value: 'disaster_event_name', label: 'Disaster Event'},
     {value: 'start_date', label: 'Start Date'},
     {value: 'end_date', label: 'End Date'},
     {value: 'saffir_simpson_category', label: 'Category'},
@@ -184,7 +184,7 @@ function Search(req, res)
         end_date AS \'End Date\',\
         saffir_simpson_category AS Category,\
         max_wind_speed AS \'Max Wind Speed\' \
-        FROM hurricanes \
+        FROM (hurricanes LEFT JOIN disaster_events USING(disaster_event_id)) \
         WHERE ?? LIKE ?', args);
         })
     .then(function(data)

@@ -53,8 +53,8 @@ const headerRow =
 ];
 const headerFields =
 [
-    {value: 'community_id', label: 'Community'},
-    {value: 'disaster_event_id', label: 'Disaster Event'},
+    {value: 'community_name', label: 'Community'},
+    {value: 'disaster_event_name', label: 'Disaster Event'},
     {value: 'fatality_count', label: 'Fatalities'},
     {value: 'injury_count', label: 'Injuries'},
     {value: 'property_damage', label: 'Property Damage'},
@@ -230,7 +230,7 @@ function Search(req, res)
         injury_count AS Injuries, \
         property_damage AS \'Property Damage\', \
         relief_cost AS \'Relief Cost\' \
-        FROM impacts \
+        FROM (communities INNER JOIN impacts USING(community_id) INNER JOIN disaster_events USING(disaster_event_id)) \
         WHERE ?? LIKE ?', args);
     })
     .then(function(data)
