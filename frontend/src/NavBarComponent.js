@@ -20,7 +20,7 @@ class NavBarComponent extends React.Component {
             <div className="nav-bar">
                 <NavBar bg="light">
                     <Container>
-                        <LinkContainer to="/disasters">
+                        <LinkContainer to="/">
                             <NavbarBrand>Disasters Database</NavbarBrand>
                         </LinkContainer>
                     <Nav>
