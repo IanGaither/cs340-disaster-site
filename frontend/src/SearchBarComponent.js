@@ -1,8 +1,10 @@
-import React from "react";
+import React from 'react';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import FormSelect from "react-bootstrap/esm/FormSelect";
-import Badge from "react-bootstrap/Badge"
+import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 
 class SearchBarComponent extends React.Component
@@ -27,15 +29,30 @@ class SearchBarComponent extends React.Component
                     </p>
                 }
                 <div className='tableSearch'>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Row>
+
+                    <Form className="d-flex align-items-center" onSubmit={this.handleSubmit}>
+
+                            <Col xs={4}>
                         <FormControl value={this.props.searchValue} placeholder='Enter search term' onChange={this.props.valueUpdate}/>
-                        <FormSelect value={this.props.searchField} onChange={this.props.fieldUpdate}>
+                            </Col>
+
+                            <Col xs={3}>
+                        <FormSelect className="ms-2" value={this.props.searchField} onChange={this.props.fieldUpdate}>
                             <option value={-1} label={'Select search field'} />
                             {options}
                         </FormSelect>
-                        <Badge bg="primary" onClick={this.handleSubmit}>Search</Badge>
-                        <Badge bg="danger" onClick={this.handleClearSearch}>Clear</Badge>
+                            </Col>
+
+                            <Col xs={4}>
+                        <Button className="ms-3" variant="primary" size="sm" onClick={this.handleSubmit}>Search</Button>
+                        <Button  className="ms-2" variant="danger" size="sm" onClick={this.handleClearSearch}>Clear</Button>
+                            </Col>
+                        
                     </Form>
+                    </Row>
+
+
                 </div>
             </div>
     }
