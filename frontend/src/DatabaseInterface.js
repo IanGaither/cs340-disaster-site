@@ -32,6 +32,10 @@ const DatabaseInterface =
     Reset: function()
     {
         return axios.get(route + 'reset');
+    },
+    Search: function(tableName, searchField, searchValue)
+    {
+        return axios.get(route + tableName + '/search?field=' + searchField + '&value=' + searchValue);
     }
 };
 

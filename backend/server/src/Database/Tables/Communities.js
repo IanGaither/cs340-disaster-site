@@ -238,7 +238,12 @@ const headerRow = [
         }
     }
 ];
-
+const headerFields = 
+[
+    {value: 'name', label: 'Name'},
+    {value: 'state', label: 'State'},
+    {value: 'population', label: 'Population'},
+];
 
 function Create(req, res)
 {
@@ -257,6 +262,7 @@ function Read(req, res)
         let table = new ResponseTable();
         table.SetTableTitle('Communities');
         table.SetTableHeaderRow(headerRow);
+        table.SetTableHeaderFields(headerFields);
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });
@@ -286,6 +292,28 @@ function Delete(req, res)
     });
 }
 
+function Search(req, res)
+{
+    let args = [req.query.field]
+    let val = '%' + req.query.value + '%';
+    args.push(val);
+
+    db.query('SELECT community_id as id, \
+    name AS Name, \
+    state+0 AS State, \
+    population AS Population FROM ' + tableName + ' \
+    WHERE ?? LIKE ?;', args)
+    .then(function(data)
+    {
+        let table = new ResponseTable();
+        table.SetTableTitle('Communities');
+        table.SetTableHeaderRow(headerRow);
+        table.SetTableHeaderFields(headerFields);
+        table.SetTableDataRows(data);
+        res.send({table: table.GetResponseTable()});
+    });
+}
+
 
 module.exports.register = function(app, root)
 {
@@ -293,4 +321,5 @@ module.exports.register = function(app, root)
     app.get(root + tableName, Read);
     app.put(root + tableName, Update);
     app.delete(root + tableName, Delete);
+    app.get(root + tableName + '/search', Search);
 }

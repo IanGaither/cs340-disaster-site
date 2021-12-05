@@ -51,6 +51,15 @@ const headerRow =
         }
     }
 ];
+const headerFields =
+[
+    {value: 'community_id', label: 'Community'},
+    {value: 'disaster_event_id', label: 'Disaster Event'},
+    {value: 'fatality_count', label: 'Fatalities'},
+    {value: 'injury_count', label: 'Injuries'},
+    {value: 'property_damage', label: 'Property Damage'},
+    {value: 'relief_cost', label: 'Relief Cost'}
+];
 
 function Create(req, res)
 {
@@ -124,6 +133,7 @@ function Read(req, res)
     })
     .then(function(data)
     {
+        table.SetTableHeaderFields(headerFields);
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });
@@ -158,6 +168,79 @@ function Delete(req, res)
     });
 }
 
+function Search(req, res)
+{
+    let args = [req.query.field]
+    let val = '%' + req.query.value + '%';
+    args.push(val);
+
+    let table = new ResponseTable();
+    table.SetTableTitle('Impacts');
+    db.query('SELECT community_id as id, name AS Name FROM communities')
+    .then(function(data)
+    {
+        //generate dynamic constraints
+        let constraints = []
+        constraints.push({value: -1, label: 'Pick a community'});
+        
+        for(let fk in data)
+        {
+            constraints.push({value: data[fk].id, label: data[fk].Name});
+        }
+        //insert new constraints based on FK values
+        for(let column in headerRow)
+        {
+            if(headerRow[column].columnName === 'Community')
+            {
+                headerRow[column].columnConstraints = constraints;
+                break;
+            }
+        }
+    })
+    .then(function(data)
+    {
+        return db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+    })
+    .then(function(data)
+    {
+        //generate dynamic constraints
+        let constraints = []
+        constraints.push({value: -1, label: 'Pick a disaster event'});
+
+        for(let fk in data)
+        {
+            constraints.push({value: data[fk].id, label: data[fk].Name});
+        }
+        //insert new constraints based on FK values
+        for(let column in headerRow)
+        {
+            if(headerRow[column].columnName === 'Disaster Event')
+            {
+                headerRow[column].columnConstraints = constraints;
+                table.SetTableHeaderRow(headerRow);
+                break;
+            }
+        }
+    })
+    .then(function(data)
+    {
+        return db.query('SELECT community_id AS Community, \
+        disaster_event_id AS \'Disaster Event\', \
+        fatality_count AS Fatalities, \
+        injury_count AS Injuries, \
+        property_damage AS \'Property Damage\', \
+        relief_cost AS \'Relief Cost\' \
+        FROM impacts \
+        WHERE ?? LIKE ?', args);
+    })
+    .then(function(data)
+    {
+        table.SetTableHeaderFields(headerFields);
+        table.SetTableDataRows(data);
+        res.send({table: table.GetResponseTable()});
+    });
+}
+
 
 module.exports.register = function(app, root)
 {
@@ -165,4 +248,5 @@ module.exports.register = function(app, root)
     app.get(root + tableName, Read);
     app.put(root + tableName, Update);
     app.delete(root + tableName, Delete);
+    app.get(root + tableName + '/search', Search);
 }
