@@ -75,7 +75,7 @@ function Read(req, res)
 {
     let table = new ResponseTable();
     table.SetTableTitle('Impacts');
-    db.query('SELECT community_id as id, name AS Name FROM communities')
+    db.query('SELECT community_id as id, community_name AS Name FROM communities')
     .then(function(data)
     {
         //generate dynamic constraints
@@ -98,7 +98,7 @@ function Read(req, res)
     })
     .then(function(data)
     {
-        return db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+        return db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
     })
     .then(function(data)
     {
@@ -176,7 +176,7 @@ function Search(req, res)
 
     let table = new ResponseTable();
     table.SetTableTitle('Impacts');
-    db.query('SELECT community_id as id, name AS Name FROM communities')
+    db.query('SELECT community_id as id, community_name AS Name FROM communities')
     .then(function(data)
     {
         //generate dynamic constraints
@@ -199,7 +199,7 @@ function Search(req, res)
     })
     .then(function(data)
     {
-        return db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+        return db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
     })
     .then(function(data)
     {

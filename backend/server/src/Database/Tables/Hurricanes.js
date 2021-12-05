@@ -81,7 +81,7 @@ function Read(req, res)
 {
     let table = new ResponseTable();
     table.SetTableTitle('Hurricanes');
-    db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
     .then(function(data)
     {
         //generate dynamic constraints
@@ -154,7 +154,7 @@ function Search(req, res)
 
     let table = new ResponseTable();
     table.SetTableTitle('Hurricanes');
-    db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
     .then(function(data)
     {
         //generate dynamic constraints

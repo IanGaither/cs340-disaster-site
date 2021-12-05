@@ -240,7 +240,7 @@ const headerRow = [
 ];
 const headerFields = 
 [
-    {value: 'name', label: 'Name'},
+    {value: 'community_name', label: 'Name'},
     {value: 'state', label: 'State'},
     {value: 'population', label: 'Population'},
 ];
@@ -256,7 +256,7 @@ function Create(req, res)
 
 function Read(req, res)
 {
-    db.query('SELECT community_id as id, name AS Name, state+0 AS State, population AS Population FROM ' + tableName)
+    db.query('SELECT community_id as id, community_name AS Name, state+0 AS State, population AS Population FROM ' + tableName)
     .then(function(data)
     {
         let table = new ResponseTable();
@@ -273,7 +273,7 @@ function Update(req, res)
     let args = req.body.newRow;
     args.push(req.query.row);
     db.query('UPDATE communities \
-    SET name = ?, \
+    SET community_name = ?, \
     state = ?, \
     population = ? \
     WHERE community_id = ?;', args)
@@ -299,7 +299,7 @@ function Search(req, res)
     args.push(val);
 
     db.query('SELECT community_id as id, \
-    name AS Name, \
+    community_name AS Name, \
     state+0 AS State, \
     population AS Population FROM ' + tableName + ' \
     WHERE ?? LIKE ?;', args)
