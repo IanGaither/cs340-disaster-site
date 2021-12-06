@@ -64,6 +64,15 @@ const headerRow =
         ]
     }
 ];
+const headerFields = 
+[
+    {value: 'disaster_event_name', label: 'Disaster Event'},
+    {value: 'date', label: 'Date'},
+    {value: 'richter_magnitude', label: 'Magnitude'},
+    {value: 'epicenter_latitude', label: 'Epicenter Lat'},
+    {value: 'epicenter_longitude', label: 'Epicenter Lon'},
+    {value: 'fault_type', label: 'Fault Type'},
+];
 
 function Create(req, res)
 {
@@ -82,7 +91,7 @@ function Read(req, res)
 {
     let table = new ResponseTable();
     table.SetTableTitle('Earthquakes');
-    db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
     .then(function(data)
     {
         //generate dynamic constraints
@@ -117,6 +126,7 @@ function Read(req, res)
         })
     .then(function(data)
     {
+        table.SetTableHeaderFields(headerFields);
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });
@@ -148,6 +158,56 @@ function Delete(req, res)
     });
 }
 
+function Search(req, res)
+{
+    let args = [req.query.field]
+    let val = '%' + req.query.value + '%';
+    args.push(val);
+
+    let table = new ResponseTable();
+    table.SetTableTitle('Earthquakes');
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
+    .then(function(data)
+    {
+        //generate dynamic constraints
+        let constraints = []
+        constraints.push({value: 0, label: 'None'});
+
+        for(let fk in data)
+        {
+            constraints.push({value: data[fk].id, label: data[fk].Name});
+        }
+        //insert new constraints based on FK values
+        for(let column in headerRow)
+        {
+            if(headerRow[column].columnName === 'Disaster Event')
+            {
+                headerRow[column].columnConstraints = constraints;
+                table.SetTableHeaderRow(headerRow);
+                break;
+            }
+        }
+    })
+    .then(function(data)
+    {
+        return db.query('SELECT earthquake_id as id,\
+            IFNULL(disaster_event_id, 0) AS \'Disaster Event\', \
+            date AS Date, \
+            richter_magnitude AS Magnitude, \
+            epicenter_latitude AS \'Epicenter Latitude\',\
+            epicenter_longitude AS \'Epicenter Longitude\',\
+            fault_type+0 AS \'Fault Type\'\
+            FROM (earthquakes LEFT JOIN disaster_events USING(disaster_event_id)) \
+            WHERE ?? LIKE ?;', args)
+        })
+    .then(function(data)
+    {
+        table.SetTableHeaderFields(headerFields);
+        table.SetTableDataRows(data);
+        res.send({table: table.GetResponseTable()});
+    });
+}
+
 
 module.exports.register = function(app, root)
 {
@@ -155,4 +215,5 @@ module.exports.register = function(app, root)
     app.get(root + tableName, Read);
     app.put(root + tableName, Update);
     app.delete(root + tableName, Delete);
+    app.get(root + tableName + '/search', Search);
 }

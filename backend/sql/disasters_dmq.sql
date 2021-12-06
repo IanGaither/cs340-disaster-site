@@ -4,12 +4,12 @@
 
 --DisasterEvents ##########
 --SELECT
-SELECT name AS Name FROM disaster_events;
+SELECT disaster_event_name AS Name FROM disaster_events;
 --INSERT
-INSERT INTO disaster_events (name)
+INSERT INTO disaster_events (disaster_event_name)
 VALUES (:name_input);
 --UPDATE
-UPDATE disaster_events SET name = :name_input 
+UPDATE disaster_events SET disaster_event_name = :name_input
 WHERE disaster_event_id = :disaster_event_id_from_row_input;
 --DELETE
 DELETE FROM disaster_events WHERE disaster_event_id = :disaster_event_id_from_row_input;
@@ -17,12 +17,12 @@ DELETE FROM disaster_events WHERE disaster_event_id = :disaster_event_id_from_ro
 
 --Communities ##########
 --SELECT
-SELECT name AS Name, state AS State, population AS Population FROM communities;
+SELECT community_name AS Name, state AS State, population AS Population FROM communities;
 --INSERT
-INSERT INTO communities (name, state, population)
+INSERT INTO communities (community_name, state, population)
 VALUES (:name_input, :state_enum_dropdown_input, :population_input);
 --UPDATE
-UPDATE communities SET name = :name_input, state = :state_enum_dropdown_input, population = :population_input
+UPDATE communities SET community_name = :name_input, state = :state_enum_dropdown_input, population = :population_input
 WHERE community_id = :community_id_from_row_input;
 --DELETE
 DELETE FROM communities WHERE community_id = :community_id_from_row_input;
@@ -30,8 +30,8 @@ DELETE FROM communities WHERE community_id = :community_id_from_row_input;
 
 --Impacts ##########
 --SELECT
-SELECT communities.name AS Community, 
-disaster_events.name AS 'Disaster Event', 
+SELECT community_name AS Community,
+disaster_event_name AS 'Disaster Event',
 fatality_count AS Fatalities, 
 injury_count AS Injuries, 
 property_damage AS 'Property Damage', 
@@ -61,7 +61,7 @@ DELETE FROM impacts WHERE community_id = :community_id_from_row_input AND disast
 
 --Earthquakes ##########
 --SELECT
-SELECT disaster_events.name AS 'Disaster Event', 
+SELECT disaster_event_name AS 'Disaster Event',
 date AS Date, 
 richter_magnitude AS Magnitude, 
 epicenter_latitude AS 'Epicenter Latitude',
@@ -91,7 +91,7 @@ DELETE FROM earthquakes WHERE earthquake_id = :earthquake_id_from_row_input;
 
 --Hurricanes ##########
 --SELECT
-SELECT disaster_events.name AS 'Disaster Event', 
+SELECT disaster_event_name AS 'Disaster Event',
 start_date AS 'Start Date',
 end_date AS 'End Date',
 saffir_simpson_category AS Category,

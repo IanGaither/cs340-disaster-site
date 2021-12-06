@@ -55,6 +55,14 @@ const headerRow =
         
     }
 ];
+const headerFields = 
+[
+    {value: 'disaster_event_name', label: 'Disaster Event'},
+    {value: 'start_date', label: 'Start Date'},
+    {value: 'end_date', label: 'End Date'},
+    {value: 'saffir_simpson_category', label: 'Category'},
+    {value: 'max_wind_speed', label: 'Max Wind Speed'}
+];
 
 function Create(req, res)
 {
@@ -73,7 +81,7 @@ function Read(req, res)
 {
     let table = new ResponseTable();
     table.SetTableTitle('Hurricanes');
-    db.query('SELECT disaster_event_id as id, name AS Name FROM disaster_events')
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
     .then(function(data)
     {
         //generate dynamic constraints
@@ -107,6 +115,7 @@ function Read(req, res)
         })
     .then(function(data)
     {
+        table.SetTableHeaderFields(headerFields);
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });
@@ -137,6 +146,55 @@ function Delete(req, res)
     });
 }
 
+function Search(req, res)
+{
+    let args = [req.query.field]
+    let val = '%' + req.query.value + '%';
+    args.push(val);
+
+    let table = new ResponseTable();
+    table.SetTableTitle('Hurricanes');
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM disaster_events')
+    .then(function(data)
+    {
+        //generate dynamic constraints
+        let constraints = []
+        constraints.push({value: 0, label: 'None'});
+
+        for(let fk in data)
+        {
+            constraints.push({value: data[fk].id, label: data[fk].Name});
+        }
+        //insert new constraints based on FK values
+        for(let column in headerRow)
+        {
+            if(headerRow[column].columnName === 'Disaster Event')
+            {
+                headerRow[column].columnConstraints = constraints;
+                table.SetTableHeaderRow(headerRow);
+                break;
+            }
+        }
+    })
+    .then(function(data)
+    {
+        return db.query('SELECT hurricane_id as id, \
+        IFNULL(disaster_event_id, 0) AS \'Disaster Event\', \
+        start_date AS \'Start Date\',\
+        end_date AS \'End Date\',\
+        saffir_simpson_category AS Category,\
+        max_wind_speed AS \'Max Wind Speed\' \
+        FROM (hurricanes LEFT JOIN disaster_events USING(disaster_event_id)) \
+        WHERE ?? LIKE ?', args);
+        })
+    .then(function(data)
+    {
+        table.SetTableHeaderFields(headerFields);
+        table.SetTableDataRows(data);
+        res.send({table: table.GetResponseTable()});
+    });
+}
+
 
 module.exports.register = function(app, root)
 {
@@ -144,4 +202,5 @@ module.exports.register = function(app, root)
     app.get(root + tableName, Read);
     app.put(root + tableName, Update);
     app.delete(root + tableName, Delete);
+    app.get(root + tableName + '/search', Search);
 }

@@ -238,11 +238,16 @@ const headerRow = [
         }
     }
 ];
-
+const headerFields = 
+[
+    {value: 'community_name', label: 'Name'},
+    {value: 'state', label: 'State'},
+    {value: 'population', label: 'Population'},
+];
 
 function Create(req, res)
 {
-    db.query('INSERT INTO communities (name, state, population) VALUES (?, ?, ?);', req.body.newRow)
+    db.query('INSERT INTO communities (community_name, state, population) VALUES (?, ?, ?);', req.body.newRow)
     .then(function(data)
     {
         res.send('done');
@@ -251,12 +256,13 @@ function Create(req, res)
 
 function Read(req, res)
 {
-    db.query('SELECT community_id as id, name AS Name, state+0 AS State, population AS Population FROM ' + tableName)
+    db.query('SELECT community_id as id, community_name AS Name, state+0 AS State, population AS Population FROM ' + tableName)
     .then(function(data)
     {
         let table = new ResponseTable();
         table.SetTableTitle('Communities');
         table.SetTableHeaderRow(headerRow);
+        table.SetTableHeaderFields(headerFields);
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });
@@ -267,7 +273,7 @@ function Update(req, res)
     let args = req.body.newRow;
     args.push(req.query.row);
     db.query('UPDATE communities \
-    SET name = ?, \
+    SET community_name = ?, \
     state = ?, \
     population = ? \
     WHERE community_id = ?;', args)
@@ -286,6 +292,28 @@ function Delete(req, res)
     });
 }
 
+function Search(req, res)
+{
+    let args = [req.query.field]
+    let val = '%' + req.query.value + '%';
+    args.push(val);
+
+    db.query('SELECT community_id as id, \
+    community_name AS Name, \
+    state+0 AS State, \
+    population AS Population FROM ' + tableName + ' \
+    WHERE ?? LIKE ?;', args)
+    .then(function(data)
+    {
+        let table = new ResponseTable();
+        table.SetTableTitle('Communities');
+        table.SetTableHeaderRow(headerRow);
+        table.SetTableHeaderFields(headerFields);
+        table.SetTableDataRows(data);
+        res.send({table: table.GetResponseTable()});
+    });
+}
+
 
 module.exports.register = function(app, root)
 {
@@ -293,4 +321,5 @@ module.exports.register = function(app, root)
     app.get(root + tableName, Read);
     app.put(root + tableName, Update);
     app.delete(root + tableName, Delete);
+    app.get(root + tableName + '/search', Search);
 }

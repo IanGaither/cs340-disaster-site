@@ -6,6 +6,7 @@ import DatabaseInterface from "./DatabaseInterface";
 import AddRow from "./AddRow";
 import HeaderRow from "./HeaderRow";
 import Row from "./Row"
+import SearchBarComponent from './SearchBarComponent';
 
 
 class TableComponent extends React.Component {
@@ -16,6 +17,10 @@ class TableComponent extends React.Component {
             activeRow: -1, 
             addEditing: false,
             editRow: [],
+            currentField: '',
+            currentValue: '',
+            searchField: -1,
+            searchValue: ''
         };
         //bind to instance
         this.handleRowModeUpdate = this.handleRowModeUpdate.bind(this);
@@ -23,11 +28,25 @@ class TableComponent extends React.Component {
         this.isEditingAdd = this.isEditingAdd.bind(this);
         this.handleUpdateRow = this.handleUpdateRow.bind(this);
         this.handleDeleteRow = this.handleDeleteRow.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleUpdateSearchField = this.handleUpdateSearchField.bind(this);
+        this.handleUpdateSearchValue = this.handleUpdateSearchValue.bind(this);
     }
 
     render() {
         return (
             <div className="container">
+            {this.state.headerFields &&
+            <SearchBarComponent 
+                fields={this.state.headerFields} 
+                search={this.handleSearch} 
+                clearSearch={this.fetchTableData} 
+                currentField={this.state.currentField} 
+                currentValue={this.state.currentValue} 
+                searchField={this.state.searchField} 
+                searchValue={this.state.searchValue} 
+                fieldUpdate={this.handleUpdateSearchField} 
+                valueUpdate={this.handleUpdateSearchValue} />}
             <Table>
                 {this.state.headerRow &&
                 <HeaderRow headers={this.state.headerRow} buttonRowWidth="150"/>}
@@ -98,10 +117,15 @@ class TableComponent extends React.Component {
             this.setState({
                 title: response.data.table.title,
                 headerRow: response.data.table.headerRow,
+                headerFields: response.data.table.headerFields,
                 dataRows: response.data.table.dataRows,
                 rowModes: rowModes,
                 activeRow: -1, 
                 addEditing: false,
+                currentField: '', 
+                currentValue: '',
+                searchField: -1,
+                searchValue: ''
             });
         });
     }
@@ -233,6 +257,51 @@ class TableComponent extends React.Component {
             }
         }
         return rowValues;
+    }
+
+    handleSearch()
+    {
+        //extract label
+        let label = '';
+        for(let field in this.state.headerFields)
+        {
+            if(this.state.headerFields[field].value === this.state.searchField)
+            {
+                label = this.state.headerFields[field].label;
+                break;
+            }
+        }
+
+        DatabaseInterface.Search(this.props.source, this.state.searchField, this.state.searchValue)
+        .then((response) => 
+        {
+            let rowModes = [];
+            for(let i = 0; i < response.data.table.dataRows.length; i++)
+            {
+                rowModes.push("inactive");
+            }
+            this.setState({
+                title: response.data.table.title,
+                headerRow: response.data.table.headerRow,
+                headerFields: response.data.table.headerFields,
+                dataRows: response.data.table.dataRows,
+                rowModes: rowModes,
+                activeRow: -1, 
+                addEditing: false,
+                currentField: label, 
+                currentValue: this.state.searchValue
+            });
+        });
+    }
+
+    handleUpdateSearchField(event)
+    {
+        this.setState({searchField: event.target.value});
+    }
+
+    handleUpdateSearchValue(event)
+    {
+        this.setState({searchValue: event.target.value});
     }
 }
 

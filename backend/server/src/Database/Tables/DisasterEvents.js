@@ -9,10 +9,14 @@ const headerRow =
         columnType: "text"
     }
 ];
+const headerFields = 
+[
+    {value: 'disaster_event_name', label: 'Name'}
+];
 
 function Create(req, res)
 {
-    db.query('INSERT INTO disaster_events (name) VALUES (?);', req.body.newRow)
+    db.query('INSERT INTO disaster_events (disaster_event_name) VALUES (?);', req.body.newRow)
     .then(function(data)
     {
         res.send('done');
@@ -21,12 +25,13 @@ function Create(req, res)
 
 function Read(req, res)
 {
-    db.query('SELECT disaster_event_id as id, name AS Name FROM ' + tableName)
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM ' + tableName)
     .then(function(data)
     {
         let table = new ResponseTable();
         table.SetTableTitle('Disaster Events');
         table.SetTableHeaderRow(headerRow);
+        table.SetTableHeaderFields(headerFields);
         table.SetTableDataRows(data);
         res.send({table: table.GetResponseTable()});
     });
@@ -36,7 +41,7 @@ function Update(req, res)
 {
     let args = req.body.newRow;
     args.push(req.query.row);
-    db.query('UPDATE disaster_events SET name = ? \
+    db.query('UPDATE disaster_events SET disaster_event_name = ? \
     WHERE disaster_event_id = ?;', args)
     .then(function(data)
     {
@@ -53,6 +58,25 @@ function Delete(req, res)
     });
 }
 
+function Search(req, res)
+{
+    let args = [req.query.field]
+    let val = '%' + req.query.value + '%';
+    args.push(val);
+
+    db.query('SELECT disaster_event_id as id, disaster_event_name AS Name FROM ' + tableName + ' \
+    WHERE ?? LIKE ?;', args)
+    .then(function(data)
+    {
+        let table = new ResponseTable();
+        table.SetTableTitle('Disaster Events');
+        table.SetTableHeaderRow(headerRow);
+        table.SetTableHeaderFields(headerFields);
+        table.SetTableDataRows(data);
+        res.send({table: table.GetResponseTable()});
+    });
+}
+
 
 module.exports.register = function(app, root)
 {
@@ -60,4 +84,5 @@ module.exports.register = function(app, root)
     app.get(root + tableName, Read);
     app.put(root + tableName, Update);
     app.delete(root + tableName, Delete);
+    app.get(root + tableName + '/search', Search);
 }

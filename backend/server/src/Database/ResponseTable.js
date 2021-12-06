@@ -15,6 +15,11 @@ module.exports = class ResponseTable
         this.table.headerRow = headerRow;
     }
 
+    SetTableHeaderFields(headerFields)
+    {
+        this.table.headerFields = headerFields;
+    }
+
     SetTableDataRows(dataRows)
     {
         let rows = [];
