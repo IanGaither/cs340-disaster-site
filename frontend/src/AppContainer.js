@@ -8,6 +8,7 @@ import Communities from "./Tables/Communities";
 import Earthquakes from "./Tables/Earthquakes";
 import Impacts from "./Tables/Impacts";
 import Hurricanes from "./Tables/Hurricanes";
+import Homepage from "./Homepage";
 
 /*const tableProps = {
     fieldTypes: ["textCell", "staticSelect", "numberCell"],
@@ -60,6 +61,9 @@ class AppContainer extends React.Component {
                     </Route>
                     <Route path="/hurricanes">
                         <Hurricanes/>
+                    </Route>
+                    <Route exact path="/">
+                        <Homepage/>
                     </Route>
                 </Switch>
                 </div>
