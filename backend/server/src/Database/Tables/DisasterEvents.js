@@ -16,7 +16,7 @@ const headerFields =
 
 function Create(req, res)
 {
-    db.query('INSERT INTO disaster_events (name) VALUES (?);', req.body.newRow)
+    db.query('INSERT INTO disaster_events (disaster_event_name) VALUES (?);', req.body.newRow)
     .then(function(data)
     {
         res.send('done');

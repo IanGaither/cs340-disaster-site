@@ -247,7 +247,7 @@ const headerFields =
 
 function Create(req, res)
 {
-    db.query('INSERT INTO communities (name, state, population) VALUES (?, ?, ?);', req.body.newRow)
+    db.query('INSERT INTO communities (community_name, state, population) VALUES (?, ?, ?);', req.body.newRow)
     .then(function(data)
     {
         res.send('done');
